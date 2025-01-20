@@ -7,12 +7,12 @@
 ### **Description**:
 The test initializes the `GlobalConfig` account.
 
-<img src="https://cryptologos.cc/logos/solana-sol-logo.png?v=022" alt="Solana Logo" width="25" height="25">
+
 
 ### **Logs**:
 - Generating Global Config PDA...
-- **Global Config Address**: 👁[View Account on Solana Explorer](https://explorer.solana.com/address/8mb6v8y7pkQJAXsySTd4bSLsPhnHzxJ5yG9s2QrSk4xa?cluster=devnet)
-- **Transaction Signature**: 👁[View Transaction on Solana Explorer](https://explorer.solana.com/tx/5mFSQrefmMrv2Ry2wE9WpKXjneXNLNbeFgkgdidJ344Xc9HrAy36eGP45pzgmZMd6jDVxtzom2AZth1uRE6Kb3Xc?cluster=devnet)
+- **Global Config Address**: <img src="https://cryptologos.cc/logos/solana-sol-logo.png?v=022" alt="Solana Logo" width="15" height="15"> [View Account on Solana Explorer](https://explorer.solana.com/address/8mb6v8y7pkQJAXsySTd4bSLsPhnHzxJ5yG9s2QrSk4xa?cluster=devnet)
+- **Transaction Signature**: <img src="https://cryptologos.cc/logos/solana-sol-logo.png?v=022" alt="Solana Logo" width="15" height="15">[View Transaction on Solana Explorer](https://explorer.solana.com/tx/5mFSQrefmMrv2Ry2wE9WpKXjneXNLNbeFgkgdidJ344Xc9HrAy36eGP45pzgmZMd6jDVxtzom2AZth1uRE6Kb3Xc?cluster=devnet)
 
 - **Global Config Account Data**:
   ```json
@@ -48,7 +48,7 @@ The test creates a token and its associated metadata.
   }
   ```
 - Starting transaction to create a token...
-- **Transaction Signature**: 👁[View Transaction on Solana Explorer](https://explorer.solana.com/tx/4H5uZnRx7byBmVwKXGCb5UdgMcSqKoUHxZqUDtv6yaXykkHuccJ3vc5BHdZbvMQjth3CUEiRXgyoy62mqkLinbv3?cluster=devnet)
+- **Transaction Signature**: <img src="https://cryptologos.cc/logos/solana-sol-logo.png?v=022" alt="Solana Logo" width="15" height="15">[View Transaction on Solana Explorer](https://explorer.solana.com/tx/4H5uZnRx7byBmVwKXGCb5UdgMcSqKoUHxZqUDtv6yaXykkHuccJ3vc5BHdZbvMQjth3CUEiRXgyoy62mqkLinbv3?cluster=devnet)
 - Fetching newly created Mint Account...
 - **Mint Account Info**:
   ```json
@@ -75,9 +75,9 @@ The test mints tokens to an associated token account.
 ### **Logs**:
 - Fetching Global Config...
 - Fetching or creating Associated Token Account...
-- **Associated Token Account Address**: 👁[View Account on Solana Explorer](https://explorer.solana.com/address/38qoL6hKoTJzne9AN3i2CXrEs67chz83ZKtZt7nvp55E?cluster=devnet)
+- **Associated Token Account Address**: <img src="https://cryptologos.cc/logos/solana-sol-logo.png?v=022" alt="Solana Logo" width="15" height="15">[View Account on Solana Explorer](https://explorer.solana.com/address/38qoL6hKoTJzne9AN3i2CXrEs67chz83ZKtZt7nvp55E?cluster=devnet)
 - Starting transaction to mint tokens...
-- **Transaction Signature**: 👁[View Transaction on Solana Explorer](https://explorer.solana.com/tx/2NVVrGm6JSKK3zEcKprDEXehdzrT3sU5KvMusjW4GNVe6Z3WiySpu6jaxvjEQ3WinwDQY66KDuLiSzTL1WyhdB1y?cluster=devnet)
+- **Transaction Signature**: <img src="https://cryptologos.cc/logos/solana-sol-logo.png?v=022" alt="Solana Logo" width="15" height="15">[View Transaction on Solana Explorer](https://explorer.solana.com/tx/2NVVrGm6JSKK3zEcKprDEXehdzrT3sU5KvMusjW4GNVe6Z3WiySpu6jaxvjEQ3WinwDQY66KDuLiSzTL1WyhdB1y?cluster=devnet)
 
 - Fetching Associated Token Account Info...
 - **Associated Token Account Info** (After Mint):
@@ -106,7 +106,7 @@ The test burns tokens from an associated token account.
 ### **Logs**:
 - Fetching Global Config...
 - Fetching or creating Associated Token Account...
-- **Associated Token Account Address**: 👁[View Account on Solana Explorer](https://explorer.solana.com/address/38qoL6hKoTJzne9AN3i2CXrEs67chz83ZKtZt7nvp55E?cluster=devnet)
+- **Associated Token Account Address**: <img src="https://cryptologos.cc/logos/solana-sol-logo.png?v=022" alt="Solana Logo" width="15" height="15">[View Account on Solana Explorer](https://explorer.solana.com/address/38qoL6hKoTJzne9AN3i2CXrEs67chz83ZKtZt7nvp55E?cluster=devnet)
 - **Token Account Info (Before Burn)**:
   ```json
   {
@@ -114,7 +114,7 @@ The test burns tokens from an associated token account.
   }
   ```
 - Burning tokens...
-- **Transaction Signature**: 👁[View Transaction on Solana Explorer](https://explorer.solana.com/tx/2zcW2N1y2m5pTCuocu1T3G25jZAKoxiuuxbfnutC1cgnPUJMqhR6ZoKqArBhCVxRxuDNWFYRhyYnymNmh7JFmE6z?cluster=devnet)
+- **Transaction Signature**: <img src="https://cryptologos.cc/logos/solana-sol-logo.png?v=022" alt="Solana Logo" width="15" height="15">[View Transaction on Solana Explorer](https://explorer.solana.com/tx/2zcW2N1y2m5pTCuocu1T3G25jZAKoxiuuxbfnutC1cgnPUJMqhR6ZoKqArBhCVxRxuDNWFYRhyYnymNmh7JFmE6z?cluster=devnet)
 - **Token Account Info (After Burn)**:
   ```json
   {
