@@ -1,7 +1,5 @@
-pub mod burn;
-pub mod create;
-pub mod mint;
+pub mod config;
+pub mod token;
 
-pub use burn::*;
-pub use create::*;
-pub use mint::*;
+pub use config::*;
+pub use token::*;

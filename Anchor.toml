@@ -11,7 +11,7 @@ morsol = "7CGU4crYR2Usi4intnru51BGNjkZHfkGbMuofy6HbtJD"
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "Localnet"
+cluster = "Devnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]

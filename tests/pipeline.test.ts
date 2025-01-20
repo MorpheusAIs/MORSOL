@@ -4,7 +4,10 @@ describe("Testing Pipeline", () => {
   it("Runs all tests in sequence", () => {
     const testFiles = [
       // // init tests
-      "token/create_token.test.ts",
+      "config/initializeConfig.test.ts",
+      "token/createToken.test.ts",
+      "token/mintToken.test.ts",
+      "token/burnToken.test.ts",
     ];
 
     for (const testFile of testFiles) {
