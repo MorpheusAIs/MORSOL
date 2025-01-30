@@ -1,0 +1,12 @@
+import "./common/config.get";
+import "./common/wire";
+import "./evm/send";
+import "./solana/clearPayload";
+import "./solana/createOFT";
+import "./solana/sendOFT";
+import "./solana/setAuthority";
+import "./solana/getPrioFees";
+import "./solana/base58";
+import "./solana/setInboundRateLimit";
+import "./solana/setOutboundRateLimit";
+import "./solana/updateKeys";

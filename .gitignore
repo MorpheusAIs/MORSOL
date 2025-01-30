@@ -1,8 +1,26 @@
 .anchor
-.DS_Store
-target
-**/*.rs.bk
 node_modules
-test-ledger
-.yarn
-/tests/utils/accounts.json
+.env
+coverage
+coverage.json
+target
+typechain
+typechain-types
+
+# Hardhat files
+cache
+artifacts
+
+
+# LayerZero specific files
+.layerzero
+
+# foundry test compilation files
+out
+
+# pnpm
+pnpm-error.log
+
+# Editor and OS files
+.DS_Store
+.idea
