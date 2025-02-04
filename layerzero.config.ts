@@ -9,7 +9,7 @@ import { oftStore } from "./deployments/solana-testnet/OFT.json";
 // Note:  Do not use address for EVM OmniPointHardhat contracts.  Contracts are loaded using hardhat-deploy.
 // If you do use an address, ensure artifacts exists.
 const sepoliaContract: OmniPointHardhat = {
-  eid: EndpointId.SEPOLIA_V2_TESTNET,
+  eid: EndpointId.ARBSEP_V2_TESTNET,
   contractName: "MOROFT_SIMPLE",
 };
 

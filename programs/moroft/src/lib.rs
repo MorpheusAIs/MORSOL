@@ -19,7 +19,7 @@ use state::*;
 
 declare_id!(Pubkey::new_from_array(program_id_from_env!(
     "MOROFT_ID",
-    "9UovNrJD8pQyBLheeHNayuG1wJSEAoxkmM14vw5gcsTT"
+    "HAiJAVb6HGEXef192JVwmmMoL7S5BHEtbBhbVRxZ7MfB"
 )));
 
 pub const OFT_SEED: &[u8] = b"OFT";
@@ -28,7 +28,7 @@ pub const ENFORCED_OPTIONS_SEED: &[u8] = b"EnforcedOptions";
 pub const LZ_RECEIVE_TYPES_SEED: &[u8] = oapp::LZ_RECEIVE_TYPES_SEED;
 
 #[program]
-pub mod oft {
+pub mod moroft {
     use super::*;
 
     pub fn oft_version(_ctx: Context<OFTVersion>) -> Result<Version> {

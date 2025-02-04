@@ -1256,6 +1256,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "moroft"
+version = "0.1.0"
+dependencies = [
+ "anchor-lang",
+ "anchor-spl",
+ "oapp",
+ "solana-helper",
+ "utils",
+]
+
+[[package]]
 name = "num-bigint"
 version = "0.4.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1354,17 +1365,6 @@ source = "git+https://github.com/LayerZero-Labs/LayerZero-v2.git?rev=34321ac15e4
 dependencies = [
  "anchor-lang",
  "endpoint",
-]
-
-[[package]]
-name = "oft"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "anchor-spl",
- "oapp",
- "solana-helper",
- "utils",
 ]
 
 [[package]]
