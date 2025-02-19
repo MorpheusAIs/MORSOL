@@ -84,7 +84,7 @@ Also set the `RPC_URL_SOLANA_TESTNET` value. Note that while the naming used her
 Create `programId` keypair files by running:
 
 ```bash
-morpheus:setup:anchor:keys
+pnpm hardhat morpheus:setup:anchor:keys
 ```
 
 :warning: task includes `--force` flag that overwrites the existing keys with the ones you generate.

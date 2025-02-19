@@ -11,3 +11,6 @@ import "./solana/squads/mint";
 import "./solana/build/build";
 import "./solana/infrastructure/checkRent";
 import "./solana/build/deployVerifiable";
+import "./wormhole/initNTT";
+import "./wormhole/createToken";
+import "./wormhole/createMetadata";

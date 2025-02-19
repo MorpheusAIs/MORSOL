@@ -6,7 +6,9 @@ seeds = false
 skip-lint = false
 
 [programs.localnet]
-moroft = "HAiJAVb6HGEXef192JVwmmMoL7S5BHEtbBhbVRxZ7MfB"
+moroft = "7EeABHSuGsFWzakcLSX9eLLsPGGyp2769AF2BwvQGBPg"
+ntt = "CAvCA9K1UJ2mWBmRGjDSTYHvSi5g7wk7uNEyadQ1EUVC"
+ntt-transceiver = "6Kz4oMdkosLm9k45aAAezxFZoCf1CykDiaWEMdmDoeqL"
 
 [registry]
 url = "https://api.apr.dev"
