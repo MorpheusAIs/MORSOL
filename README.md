@@ -1,6 +1,4 @@
-
-
-<h1 align="center">Morpheus Omnichain Fungible Token (OFT)</h1>
+# Morpheus Omnichain Fungible Token (OFT)
 
 ## Requirements
 
@@ -12,264 +10,176 @@
 
 ## Setup
 
-We recommend using `pnpm` as a package manager (but you can of course use a package manager of your choice).
+We recommend using `pnpm` as a package manager, but you can use any package manager of your choice.
 
-[Docker](https://docs.docker.com/get-started/get-docker/) is required to build using anchor. We highly recommend that you use the most up-to-date Docker version to avoid any issues with anchor
-builds.
+[Docker](https://docs.docker.com/get-started/get-docker/) is required for building with Anchor. Ensure you have the latest Docker version to avoid issues.
 
-:warning: You need anchor version `0.29` and solana version `1.17.31` specifically to compile the build artifacts. Using higher Anchor and Solana versions can introduce unexpected issues during compilation. See the following issues in Anchor's repo: [1](https://github.com/coral-xyz/anchor/issues/3089), [2](https://github.com/coral-xyz/anchor/issues/2835). After compiling the correct build artifacts, you can change the Solana version to higher versions.
+⚠️ You need Anchor version `0.29` and Solana version `1.17.31` to compile the build artifacts. Using higher versions may cause unexpected issues. See these issues in Anchor's repo: [Issue 1](https://github.com/coral-xyz/anchor/issues/3089), [Issue 2](https://github.com/coral-xyz/anchor/issues/2835).
 
-### Install Rust
+### Install Dependencies
+
+#### Rust
 
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 ```
 
-### Install Solana
+#### Solana
 
 ```bash
 sh -c "$(curl -sSfL https://release.solana.com/v1.17.31/install)"
 ```
 
-### Install Anchor
-
-Install and use the correct version
+#### Anchor
 
 ```bash
 cargo install --git https://github.com/coral-xyz/anchor --tag v0.29.0 anchor-cli --locked
 ```
 
-### Get the code
-
-```bash
-LZ_ENABLE_SOLANA_OFT_EXAMPLE=1 npx create-lz-oapp@latest
-```
-
-### Installing Dependencies
+#### Project Dependencies
 
 ```bash
 pnpm install
 ```
 
-### Running tests
+## Running Tests
 
 ```bash
 pnpm test
 ```
 
-### Get Devnet SOL
+## Get Devnet SOL
 
 ```bash
 solana airdrop 5 -u devnet
 ```
 
-We recommend that you request 5 devnet SOL, which should be sufficient for this walkthrough. For the example here, we will be using Solana Devnet. If you hit rate limits, you can also use the [official Solana faucet](https://faucet.solana.com/).
+Use the [official Solana faucet](https://faucet.solana.com/) if needed.
 
-### Prepare `.env`
+## Configure Environment
 
 ```bash
 cp .env.example .env
 ```
 
-In the `.env` just created, set `SOLANA_PRIVATE_KEY` to your private key value in base58 format. Since the locally stored keypair is in an integer array format, we'd need to encode it into base58 first.
+Set `SOLANA_PRIVATE_KEY` in `.env` to your private key in base58 format. Use:
 
-You can run the `npx hardhat lz:solana:base-58` to output your private key in base58 format. Optionally, pass in a value for the `--keypair-file` flag if you want to use the keypair other than the default at `~/.config/solana/id.json`
+```bash
+npx hardhat lz:solana:base-58 --keypair-file <PATH>
+```
 
-Also set the `RPC_URL_SOLANA_TESTNET` value. Note that while the naming used here is `TESTNET`, it refers to the [Solana Devnet](https://docs.layerzero.network/v2/developers/evm/technical-reference/deployed-contracts#solana-testnet). We use `TESTNET` to keep it consistent with the existing EVM testnets.
+Also set `RPC_URL_SOLANA_TESTNET` (refers to Solana Devnet for consistency with EVM testnets).
 
-## Deploy
+## Deployment
 
-### Prepare the OFT Program ID
-
-Create `programId` keypair files by running:
+### Generate OFT Program ID
 
 ```bash
 pnpm hardhat morpheus:setup:anchor:keys
 ```
 
-:warning: task includes `--force` flag that overwrites the existing keys with the ones you generate.
+⚠️ This command includes `--force`, which overwrites existing keys.
 
-Run
+View the generated program ID:
 
-```
+```bash
 anchor keys list
 ```
 
-to view the generated programId (public keys). The output should look something like this:
+### Build and Deploy the Solana OFT Program
 
-```
-oft: <OFT_PROGRAM_ID>
-```
+Ensure Docker is running before building.
 
-Copy the OFT's programId and go into [lib.rs](./programs/oft/src/lib.rs). Note the following snippet:
-
-```
-declare_id!(Pubkey::new_from_array(program_id_from_env!(
-    "OFT_ID",
-    "9UovNrJD8pQyBLheeHNayuG1wJSEAoxkmM14vw5gcsTT"
-)));
-```
-
-Replace `9UovNrJD8pQyBLheeHNayuG1wJSEAoxkmM14vw5gcsTT` with the programId that you have copied.
-
-### Building and Deploying the Solana OFT Program
-
-Ensure you have Docker running before running the build command.
-
-#### Build the Solana OFT program
+#### Build
 
 ```bash
 pnpm hardhat morpheus:anchor:build:verifiable
 ```
 
-#### Preview Rent Costs for the Solana OFT
-
-:information_source: The majority of the SOL required to deploy your program will be for [**rent**](https://solana.com/docs/core/fees#rent) (specifically, for the minimum balance of SOL required for [rent-exemption](https://solana.com/docs/core/fees#rent-exempt)), which is calculated based on the amount of bytes the program or account uses. Programs typically require more rent than PDAs as more bytes are required to store the program's executable code.
-
-In our case, the OFT Program's rent accounts for roughly 99% of the SOL needed during deployment, while the other accounts' rent, OFT Store, Mint, Mint Authority Multisig and Escrow make up for only a fraction of the SOL needed.
-
-You can preview how much SOL would be needed for the program account. Note that the total SOL required would to be slightly higher than just this, to account for the other accounts that need to be created.
+#### Preview Rent Costs
 
 ```bash
 pnpm hardhat morpheus:deploy:anchor:rent
 ```
 
-You should see an output such as
+Example output:
 
 ```bash
 Rent-exempt minimum: 3.87415872 SOL
 ```
 
-:information_source: LayerZero's default deployment path for Solana OFTs require you to deploy your own OFT program as this means you own the Upgrade Authority and don't rely on LayerZero to manage that authority for you. Read [this](https://neodyme.io/en/blog/solana_upgrade_authority/) to understand more no why this is important.
+[Read more about Solana rent](https://solana.com/docs/core/fees#rent).
 
-#### Deploy the Solana OFT
+#### Deploy
 
 ```bash
 pnpm hardhat morpheus:anchor:deploy:verifiable
 ```
 
-:information_source: the `-u` flag specifies the RPC URL that should be used. The options are `mainnet-beta, devnet, testnet, localhost`, which also have their respective shorthands: `-um, -ud, -ut, -ul`
-
-:warning: If the deployment is slow, it could be that the network is congested. If so, you can either wait it out or opt to include a `priorityFee`.
-
-#### (optional) Deploying with a priority fee
-
-This section only applies if you are unable to land your deployment transaction due to network congestion.
-
-:information_source: [Priority Fees](https://solana.com/developers/guides/advanced/how-to-use-priority-fees) are Solana's mechanism to allow transactions to be prioritized during periods of network congestion. When the network is busy, transactions without priority fees might never be processed. It is then necessary to include priority fees, or wait until the network is less congested. Priority fees are calculated as follows: `priorityFee = compute budget * compute unit price`. We can make use of priority fees by attaching the `--with-compute-unit-price` flag to our `solana program deploy` command. Note that the flag takes in a value in micro lamports, where 1 micro lamport = 0.000001 lamport.
-
-<details>
-  <summary>View instructions</summary>
-  Because building requires Solana CLI version `1.17.31`, but priority fees are only supported in version `1.18`, we will need to switch Solana CLI versions temporarily.
-
-```bash
-sh -c "$(curl -sSfL https://release.solana.com/v1.18.26/install)"
-```
-
-You can run refer QuickNode's [Solana Priority Fee Tracker](https://www.quicknode.com/gas-tracker/solana) to know what value you'd need to pass into the `--with-compute-unit-price` flag.
-
-:information_source: The average is calculated from getting the prioritization fees across recent blocks, but some blocks may have `0` as the prioritization fee. `averageFeeExcludingZeros` ignores blocks with `0` prioritization fees.
-
-Now let's rerun the deploy command, but with the compute unit price flag.
-
-```bash
-npx hardhat setup:anchor:deploy:verifiable
-```
-
-:warning: Make sure to switch back to v1.17.31 after deploying. If you need to rebuild artifacts, you must use Solana CLI version `1.17.31` and Anchor version `0.29.0`
-
-```bash
-sh -c "$(curl -sSfL https://release.solana.com/v1.17.31/install)"
-```
-
-</details>
-
 ### Create the Solana OFT
-
-:information_source: For **OFT** and **OFT Mint-and-Burn Adapter**, the SPL token's Mint Authority is set to the **Mint Authority Multisig**, which always has the **OFT Store** as a signer. The multisig is fixed to needing 1 of N signatures.
-
-:information_source: For **OFT** and **OFT Mint-And-Burn Adapter**, you have the option to specify additional signers through the `--additional-minters` flag. If you choose not to, you must pass in `--only-oft-store true`, which means only the **OFT Store** will be a signer for the \_Mint Authority Multisig\*.
-
-:warning: If you choose to go with `--only-oft-store`, you will not be able to add in other signers/minters or update the Mint Authority, and the Freeze Authority will be immediately renounced. The token Mint Authority will be fixed Mint Authority Multisig address while the Freeze Authority will be set to None.
-
-#### For OFT:
 
 ```bash
 pnpm hardhat morpheus:oft:solana:create
 ```
 
-:warning: Use `--additional-minters` flag to add a CSV of additional minter addresses to the Mint Authority Multisig. If you do not want to, you must specify `--only-oft-store true`.
+⚠️ Use `--additional-minters` to specify minters. If omitted, use `--only-oft-store true`.
 
-:information_source: You can also specify `--amount <AMOUNT>` to have the OFT minted to your deployer address upon token creation.
+### Update Configuration
 
+Check [`layerzero.config.ts`](./layerzero.config.ts) and ensure only the `address` for Solana is specified. Do not specify addresses for EVM chain contracts.
 
-### Check [layerzero.config.ts](./layerzero.config.ts)
-
-
-
-:warning: Ensure that you only specify `address` for the solana contract object. Do not specify addresses for the EVM chain contract objects. Under the hood, we use `hardhat-deploy` to retrieve the contract addresses of the deployed EVM chain contracts. You will run into an error if you specify `address` for an EVM chain contract object.
-
-### Deploy a sepolia OFT peer
+### Deploy Sepolia OFT Peer
 
 ```bash
-pnpm hardhat lz:deploy # follow the prompts
+pnpm hardhat lz:deploy
 ```
 
-Note: If you are on testnet, consider using `MyOFTMock` to allow test token minting. If you do use `MyOFTMock`, make sure to update the `sepoliaContract.contractName` in [layerzero.config.ts](./layerzero.config.ts) to `MyOFTMock`.
+For testnet, consider using `MyOFTMock`. If so, update `sepoliaContract.contractName` in `layerzero.config.ts`.
 
 ### Initialize the Solana OFT
 
-:warning: Do this only when initializing the OFT for the first time. The only exception is if a new pathway is added later. If so, run this again to properly initialize the pathway.
-
 ```bash
-npx hardhat lz:oapp:init:solana --oapp-config layerzero.config.ts --solana-secret-key <SECRET_KEY> --solana-program-id <PROGRAM_ID>
+pnpm hardhat lz:oapp:init:solana --oapp-config layerzero.config.ts --solana-secret-key <SECRET_KEY> --solana-program-id <PROGRAM_ID>
 ```
 
-:information_source: `<SECRET_KEY>` should also be in base58 format.
+⚠️ `<SECRET_KEY>` should be in base58 format.
 
-### Wire
+### Wire Configuration
 
 ```bash
-npx hardhat lz:oapp:wire --oapp-config layerzero.config.ts --solana-secret-key <PRIVATE_KEY> --solana-program-id <PROGRAM_ID>
+pnpm hardhat lz:oapp:wire --oapp-config layerzero.config.ts --solana-secret-key <PRIVATE_KEY> --solana-program-id <PROGRAM_ID>
 ```
 
-With a squads multisig, you can simply append the `--multisigKey` flag to the end of the above command.
+Use `--multisigKey` for squads multisig.
 
 ### Mint OFT on Solana
 
-This is only relevant for **OFT**. If you opted to include the `--amount` flag in the create step, that means you already have minted some Solana OFT and you can skip this section.
-
-:information_source: This is only possible if you specified your deployer address as part of the `--additional-minters` flag when creating the Solana OFT. If you had chosen `--only-oft-store true`, you will not be able to mint your OFT on Solana.
-
-First, you need to create the Associated Token Account for your address.
+First, create an associated token account:
 
 ```bash
 spl-token create-account <TOKEN_MINT>
 ```
 
-Then, you can mint. Remember this is in local decimals, so with local decimals of 9, you would need to pass in `--amount 1000000000` to mint 1 OFT.
+Then mint tokens:
 
 ```bash
 spl-token mint <TOKEN_MINT> <AMOUNT> --multisig-signer ~/.config/solana/id.json --owner <MINT_AUTHORITY>
 ```
 
-:information_source: `~/.config/solana/id.json` assumes that you will use the keypair in the default location. To verify if this path applies to you, run `solana config get` and not the keypair path value.
+📌 Check `~/.config/solana/id.json` with `solana config get`.
 
-:information_source: You can get the `<MINT_AUTHORITY>` address from [deployments/solana-testnet/OFT.json](deployments/solana-testnet/OFT.json).
+## Sending Tokens
 
-
-### Send
-
-#### Send SOL -> Sepolia
+### SOL -> Sepolia
 
 ```bash
 npx hardhat morpheus:oft:solana:send --amount <AMOUNT> --to <EVM_ADDRESS>
 ```
 
-#### Send Sepolia -> SOL
+### Sepolia -> SOL
 
 ```bash
 npx hardhat --network sepolia-testnet send --amount <AMOUNT> --to <TO>
 ```
 
-:information_source: If you encounter an error such as `No Contract deployed with name`, ensure that the `tokenName` in the task defined in `tasks/evm/send.ts` matches the deployed contract name.
+⚠️ If you encounter `No Contract deployed with name`, ensure `tokenName` in `tasks/evm/send.ts` matches the deployed contract name.

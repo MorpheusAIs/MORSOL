@@ -121,7 +121,7 @@ export async function createOFT({
   let mintAuthorityPublicKey: PublicKey = toWeb3JsPublicKey(oftStorePda);
 
   if (additionalMintersAsStrings) {
-    // we only need a multisig when we have additional minters
+    //   // we only need a multisig when we have additional minters
     mintAuthorityPublicKey = await createMintAuthorityMultisig(
       connection,
       umi,
@@ -147,10 +147,10 @@ export async function createOFT({
     // console.log(
     //   `Created Squads multisig @ ${mintAuthorityPublicKey.toBase58()}`,
     // );
-    // // await checkSquadsMultisigSigners(connection, mintAuthorityPublicKey, [
-    // //   toWeb3JsPublicKey(oftStorePda),
-    // //   ...additionalMinters,
-    // // ]);
+    // await checkSquadsMultisigSigners(connection, mintAuthorityPublicKey, [
+    //   toWeb3JsPublicKey(oftStorePda),
+    //   ...additionalMinters,
+    // ]);
   }
 
   const mint = isMABA
