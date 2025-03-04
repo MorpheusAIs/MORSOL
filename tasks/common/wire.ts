@@ -55,7 +55,7 @@ task(TASK_LZ_OAPP_WIRE)
   .addParam(
     "solanaSecretKey",
     "Secret key of the user account that will be used to send transactions",
-    process.env.SOLANA_PRIVATE_KEY,
+    undefined,
     keyPair,
     true,
   )

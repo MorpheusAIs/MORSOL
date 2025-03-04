@@ -36,6 +36,7 @@ export async function createSquadsMultisig(
     key,
     permissions: multisig.types.Permissions.all(),
   }));
+  console.log(signers);
 
   // const members = [];
 
@@ -61,10 +62,10 @@ export async function createSquadsMultisig(
   await connection.confirmTransaction(signature);
   console.log(`Squads Multisig created: ${signature}`);
 
-  // const [vaultPda] = multisig.getVaultPda({ multisigPda, index: 0 });
-  // console.log(vaultPda);
-  // anf
-  return new PublicKey("7tsUb1GNWFNsc7kw72UD3xnQb5EffGDTEXmFKvmnZCY7");
+  const [vaultPda] = multisig.getVaultPda({ multisigPda, index: 0 });
+  console.log(vaultPda);
+
+  return new PublicKey(multisigPda);
 }
 
 export async function checkSquadsMultisigSigners(
