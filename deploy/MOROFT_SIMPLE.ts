@@ -2,7 +2,7 @@ import assert from "assert";
 
 import { type DeployFunction } from "hardhat-deploy/types";
 
-const contractName = "MOROFT_SIMPLE";
+const contractName = "MORTOKENV";
 
 const deploy: DeployFunction = async (hre) => {
   const { getNamedAccounts, deployments } = hre;

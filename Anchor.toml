@@ -6,16 +6,14 @@ seeds = false
 skip-lint = false
 
 [programs.localnet]
-moroft = "7EeABHSuGsFWzakcLSX9eLLsPGGyp2769AF2BwvQGBPg"
-ntt = "CAvCA9K1UJ2mWBmRGjDSTYHvSi5g7wk7uNEyadQ1EUVC"
-ntt-transceiver = "6Kz4oMdkosLm9k45aAAezxFZoCf1CykDiaWEMdmDoeqL"
+moroft = "51Cr3H9YEMnGv4N5e78J4oof2qU1rgLDdbLpAiWi4Qk6"
 
 [registry]
-url = "https://api.apr.dev"
+url = "https://api.devnet.solana.com"
 
 [provider]
-cluster = "Localnet"
-wallet = "./junk-id.json"
+cluster = "Devnet"
+wallet = "/Users/petroyaremenko/.config/solana/id.json"
 
 [scripts]
-test = "npx jest test/anchor"
+test = "pnpm ts-mocha -p ./tsconfig.json -t 1000000 tests/**/pipeline.test.ts"

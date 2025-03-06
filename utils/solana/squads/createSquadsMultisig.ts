@@ -19,9 +19,13 @@ export async function createSquadsMultisig(
   mintAuthorityEnabled: boolean = true,
 ): Promise<PublicKey> {
   const createKey = Keypair.generate();
+  console.log(createKey.publicKey.toBase58());
+
   const [multisigPda] = multisig.getMultisigPda({
     createKey: createKey.publicKey,
   });
+  console.log(multisigPda.toBase58());
+
   const programConfigPda = multisig.getProgramConfigPda({})[0];
   const programConfig =
     await multisig.accounts.ProgramConfig.fromAccountAddress(
@@ -38,12 +42,11 @@ export async function createSquadsMultisig(
   }));
   console.log(signers);
 
-  // const members = [];
-
-  members.push({
-    key: umiWalletSigner.publicKey,
-    permissions: multisig.types.Permissions.all(),
-  });
+  // members.push({
+  //   key: umiWalletSigner.publicKey,
+  //   permissions: multisig.types.Permissions.all(),
+  // });
+  console.log(members);
 
   const signature = await multisig.rpc.multisigCreateV2({
     connection,
@@ -63,9 +66,9 @@ export async function createSquadsMultisig(
   console.log(`Squads Multisig created: ${signature}`);
 
   const [vaultPda] = multisig.getVaultPda({ multisigPda, index: 0 });
-  console.log(vaultPda);
-
-  return new PublicKey(multisigPda);
+  console.log(multisigPda.toBase58());
+  // throw new Error();
+  return new PublicKey(vaultPda);
 }
 
 export async function checkSquadsMultisigSigners(

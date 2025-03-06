@@ -1,6 +1,6 @@
 import { EndpointId } from "@layerzerolabs/lz-definitions";
 
-export interface SendOFTArgs {
+export interface SendOFTSolanaArgs {
   amount: number;
   to: string;
   fromEid: EndpointId;
