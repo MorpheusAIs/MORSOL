@@ -10,7 +10,7 @@ import { oftStore } from "./deployments/solana-testnet/OFT.json";
 // If you do use an address, ensure artifacts exists.
 const sepoliaContract: OmniPointHardhat = {
   eid: EndpointId.ARBSEP_V2_TESTNET,
-  contractName: "MOROFT_SIMPLE",
+  contractName: "MORTOKENV",
 };
 
 const solanaContract: OmniPointHardhat = {

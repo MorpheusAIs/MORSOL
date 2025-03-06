@@ -119,7 +119,7 @@ pnpm hardhat morpheus:anchor:deploy:verifiable
 ### Create the Solana OFT
 
 ```bash
-pnpm hardhat morpheus:oft:solana:create
+pnpm hardhat morpheus:oft:solana:create --additional-minters <YOUR_PUBKEY>
 ```
 
 ⚠️ Use `--additional-minters` to specify minters. If omitted, use `--only-oft-store true`.
@@ -173,13 +173,13 @@ spl-token mint <TOKEN_MINT> <AMOUNT> --multisig-signer ~/.config/solana/id.json 
 ### SOL -> Sepolia
 
 ```bash
-npx hardhat morpheus:oft:solana:send --amount <AMOUNT> --to <EVM_ADDRESS>
+pnpm hardhat morpheus:oft:solana:send --amount <AMOUNT> --to <EVM_ADDRESS>
 ```
 
 ### Sepolia -> SOL
 
 ```bash
-npx hardhat --network sepolia-testnet send --amount <AMOUNT> --to <TO>
+pnpm hardhat --network arbsep-testnet morpheus:evm:send --amount <AMOUNT> --to <TO>
 ```
 
 ⚠️ If you encounter `No Contract deployed with name`, ensure `tokenName` in `tasks/evm/send.ts` matches the deployed contract name.

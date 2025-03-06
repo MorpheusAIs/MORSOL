@@ -10,6 +10,7 @@ import { getLayerZeroScanLink } from "../solana/infrastructure/helpers";
 import { Options } from "@layerzerolabs/lz-v2-utilities";
 import { SendOFTEVMArgs } from "../interfaces/evm/sendOFT.args";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
+import { parseUnits } from "ethers/lib/utils";
 
 export async function sendOFTEVM(
   { dstEid, amount, to, contractName }: SendOFTEVMArgs,
@@ -27,7 +28,7 @@ export async function sendOFTEVM(
   //     console.log(`approve: ${amount}: ${approvalTxReceipt.transactionHash}`)
   // }
 
-  const amountLD = BigNumber.from(amount);
+  const amountLD = parseUnits(amount.toString(), 9);
   let options = Options.newOptions()
     .addExecutorLzReceiveOption(200000, 250000)
     .toHex();
@@ -44,6 +45,7 @@ export async function sendOFTEVM(
   };
 
   const [msgFee] = await token.functions.quoteSend(sendParam, false);
+
   const txResponse = await token.functions.send(
     sendParam,
     msgFee,
@@ -53,6 +55,7 @@ export async function sendOFTEVM(
       gasLimit: 500_000_000,
     },
   );
+
   const txReceipt = await txResponse.wait();
   console.log(`send: ${amount} to ${to}: ${txReceipt.transactionHash}`);
   console.log(
