@@ -6,7 +6,7 @@ seeds = false
 skip-lint = false
 
 [programs.localnet]
-moroft = "7NstT9iUNbcFirHAGdqnWj8ozdvGZcRgueESPqRey4ra"
+moroft = "HZdgEQLhHPou97bfKSgM8H68HtkT7yp3ALZR5d6zhrLu"
 
 [registry]
 url = "https://api.devnet.solana.com"

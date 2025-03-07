@@ -48,6 +48,7 @@ export const mintToken = async (amount: number, payerKeypairPath: string) => {
     connection,
     multisigPda,
   );
+  console.log(`Index: ${multisigInfo.transactionIndex}`);
   const transactionIndex = BigInt(Number(multisigInfo.transactionIndex) + 1);
 
   console.log(`Transaction Index: ${transactionIndex}`);
