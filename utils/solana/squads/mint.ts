@@ -16,34 +16,33 @@ import {
 } from "@solana/spl-token";
 import fs from "fs";
 import * as anchor from "@coral-xyz/anchor";
-
+import {
+  multisigPDA,
+  vaultIndex,
+  vaultPDA,
+} from "../../../deployments/solana-testnet/SQUADS.json";
+import {
+  mint,
+  mintAuthority,
+} from "../../../deployments/solana-testnet/OFT.json";
+import { deriveConnection } from "../infrastructure/helpers";
 const loadKeypair = (path: string): Keypair => {
   const secretKey = JSON.parse(fs.readFileSync(path, "utf-8"));
   return Keypair.fromSecretKey(new Uint8Array(secretKey));
 };
 
-export const mintToken = async (
-  mintAddress: string,
-  amount: number,
-  payerKeypairPath: string,
-) => {
-  const connection = new Connection(
-    "https://api.devnet.solana.com",
-    "confirmed",
+export const mintToken = async (amount: number, payerKeypairPath: string) => {
+  const { connection } = await deriveConnection(
+    Number(process.env.SOLANA_EID) || 40168,
   );
 
   const payer: Keypair = loadKeypair(payerKeypairPath);
 
-  const mint = new PublicKey(mintAddress);
+  const tokenMint = new PublicKey(mint);
 
-  const multisigPda = new PublicKey(
-    "HPayKENTz7hKQ4Awzt1cE9FvDTaWWMPrG82VuT9vj4b9",
-  );
+  const multisigPda = new PublicKey(multisigPDA);
 
-  const [vaultPda] = multisig.getVaultPda({ multisigPda, index: 0 });
-
-  console.log(`Multisig PDA: ${multisigPda.toBase58()}`);
-  console.log(`Vault PDA: ${vaultPda.toBase58()}`);
+  const [vaultPda] = multisig.getVaultPda({ multisigPda, index: vaultIndex });
 
   const multisigInfo = await multisig.accounts.Multisig.fromAccountAddress(
     connection,
@@ -56,18 +55,18 @@ export const mintToken = async (
   const tokenAccount = await getOrCreateAssociatedTokenAccount(
     connection,
     payer,
-    mint,
+    tokenMint,
     payer.publicKey,
   );
 
   console.log(`Recipient Token Account: ${tokenAccount.address.toBase58()}`);
 
   const mintIx = createMintToInstruction(
-    mint,
+    tokenMint,
     tokenAccount.address,
-    vaultPda,
+    new PublicKey(mintAuthority),
     amount,
-    [],
+    [vaultPda],
     TOKEN_PROGRAM_ID,
   );
 
@@ -98,7 +97,6 @@ export const mintToken = async (
   const iix = multisig.instructions.proposalCreate({
     multisigPda,
     transactionIndex,
-    // Must have "Voter" permissions at minimum
     creator: payer.publicKey,
   });
   const tiix = new Transaction().add(iix);
@@ -109,7 +107,6 @@ export const mintToken = async (
   const ix = multisig.instructions.proposalApprove({
     multisigPda,
     transactionIndex,
-    // Member must have "Voter" permissions
     member: payer.publicKey,
   });
 

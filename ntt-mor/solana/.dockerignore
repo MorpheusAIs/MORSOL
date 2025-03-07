@@ -1,8 +1,0 @@
-**/target
-**/bundler
-**/nodejs
-*.md
-artifacts-*
-bin
-legacy
-node_modules

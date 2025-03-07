@@ -9,7 +9,13 @@ import {OFTCore} from "@layerzerolabs/oft-evm/contracts/OFTCore.sol";
 import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
-contract MORTOKENV is OFTCore, ERC20, ERC20Burnable, ERC20Permit, ERC20Votes {
+contract MORTOKEN_REVISED is
+    OFTCore,
+    ERC20,
+    ERC20Burnable,
+    ERC20Permit,
+    ERC20Votes
+{
     mapping(address => bool) public isMinter;
 
     address public minter;

@@ -116,13 +116,23 @@ Rent-exempt minimum: 3.87415872 SOL
 pnpm hardhat morpheus:anchor:deploy:verifiable
 ```
 
+### Create SquadsV4
+
+```bash
+pnpm hardhat morpheus:oft:solana:create-squads --keypair-path <YOUR_KEYPAIR_PATH>
+```
+
 ### Create the Solana OFT
 
 ```bash
-pnpm hardhat morpheus:oft:solana:create --additional-minters <YOUR_PUBKEY>
+pnpm hardhat morpheus:oft:solana:create --additional-minters <YOUR_SQUADS_VAULT_PDA>
 ```
 
-⚠️ Use `--additional-minters` to specify minters. If omitted, use `--only-oft-store true`.
+### Create SquadsV4
+
+```bash
+pnpm hardhat morpheus:oft:solana:mint --amount <AMOUNT_IN_LAMPORTS> --keypair-path <YOUR_KEYPAIR_PATH>
+```
 
 ### Update Configuration
 
@@ -132,6 +142,12 @@ Check [`layerzero.config.ts`](./layerzero.config.ts) and ensure only the `addres
 
 ```bash
 pnpm hardhat lz:deploy
+```
+
+### Mint test EVM tokens
+
+```bash
+cast send <TOKEN_ADDRESS> "mint(address,uint256)" <RECIPIENT> <AMOUNT> --private-key <EVM_PRIVATE_KEY> --rpc-url wss://arbitrum-sepolia-rpc.publicnode.com
 ```
 
 For testnet, consider using `MyOFTMock`. If so, update `sepoliaContract.contractName` in `layerzero.config.ts`.
@@ -150,36 +166,18 @@ pnpm hardhat lz:oapp:init:solana --oapp-config layerzero.config.ts --solana-secr
 pnpm hardhat lz:oapp:wire --oapp-config layerzero.config.ts --solana-secret-key <PRIVATE_KEY> --solana-program-id <PROGRAM_ID>
 ```
 
-Use `--multisigKey` for squads multisig.
-
-### Mint OFT on Solana
-
-First, create an associated token account:
-
-```bash
-spl-token create-account <TOKEN_MINT>
-```
-
-Then mint tokens:
-
-```bash
-spl-token mint <TOKEN_MINT> <AMOUNT> --multisig-signer ~/.config/solana/id.json --owner <MINT_AUTHORITY>
-```
-
-📌 Check `~/.config/solana/id.json` with `solana config get`.
-
 ## Sending Tokens
 
 ### SOL -> Sepolia
 
 ```bash
-pnpm hardhat morpheus:oft:solana:send --amount <AMOUNT> --to <EVM_ADDRESS>
+pnpm hardhat morpheus:oft:solana:send --amount <AMOUNT_IN_LAMPORTS> --to <EVM_ADDRESS>
 ```
 
 ### Sepolia -> SOL
 
 ```bash
-pnpm hardhat --network arbsep-testnet morpheus:evm:send --amount <AMOUNT> --to <TO>
+pnpm hardhat --network arbsep-testnet morpheus:evm:send --amount <AMOUNT_IN_LAMPORTS> --to <TO>
 ```
 
 ⚠️ If you encounter `No Contract deployed with name`, ensure `tokenName` in `tasks/evm/send.ts` matches the deployed contract name.

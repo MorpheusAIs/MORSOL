@@ -5,26 +5,31 @@ import {
   LAMPORTS_PER_SOL,
   Connection,
 } from "@solana/web3.js";
-import { EndpointId } from "@layerzerolabs/lz-definitions";
-import * as anchor from "@coral-xyz/anchor";
-import { deriveConnection, getExplorerTxLink } from "../infrastructure/helpers";
+
+import { deriveConnection } from "../infrastructure/helpers";
 import bs58 from "bs58";
+import fs from "fs";
+import { mintAuthority } from "../../../deployments/solana-testnet/OFT.json";
+import * as path from "path";
+
+const loadKeypair = (path: string): Keypair => {
+  const secretKey = JSON.parse(fs.readFileSync(path, "utf-8"));
+  return Keypair.fromSecretKey(new Uint8Array(secretKey));
+};
 
 export async function createSquadsMultisig(
-  connection: Connection,
-  eid: EndpointId,
-  umiWalletSigner: Keypair,
-  signers: PublicKey[],
-  threshold: number,
-  mintAuthorityEnabled: boolean = true,
+  keypairPath: string,
 ): Promise<PublicKey> {
+  const { connection } = await deriveConnection(
+    Number(process.env.SOLANA_EID) || 40168,
+  );
   const createKey = Keypair.generate();
-  console.log(createKey.publicKey.toBase58());
+
+  const payer: Keypair = loadKeypair(keypairPath);
 
   const [multisigPda] = multisig.getMultisigPda({
     createKey: createKey.publicKey,
   });
-  console.log(multisigPda.toBase58());
 
   const programConfigPda = multisig.getProgramConfigPda({})[0];
   const programConfig =
@@ -34,29 +39,26 @@ export async function createSquadsMultisig(
     );
   const configTreasury = programConfig.treasury;
 
-  console.log("Program Config PDA:", programConfigPda.toBase58());
-
-  const members = signers.map((key) => ({
-    key,
-    permissions: multisig.types.Permissions.all(),
-  }));
-  console.log(signers);
-
-  // members.push({
-  //   key: umiWalletSigner.publicKey,
-  //   permissions: multisig.types.Permissions.all(),
-  // });
-  console.log(members);
+  console.log("Multisig PDA:", multisigPda.toBase58());
 
   const signature = await multisig.rpc.multisigCreateV2({
     connection,
     createKey,
-    creator: umiWalletSigner,
+    creator: payer,
     multisigPda,
-    configAuthority: mintAuthorityEnabled ? umiWalletSigner.publicKey : null,
+    configAuthority: null,
     timeLock: 0,
-    members,
-    threshold,
+    members: [
+      {
+        key: payer.publicKey,
+        permissions: multisig.types.Permissions.all(),
+      },
+      {
+        key: new PublicKey(mintAuthority),
+        permissions: multisig.types.Permissions.all(),
+      },
+    ],
+    threshold: 1,
     rentCollector: null,
     treasury: configTreasury,
     sendOptions: { skipPreflight: true },
@@ -64,30 +66,22 @@ export async function createSquadsMultisig(
 
   await connection.confirmTransaction(signature);
   console.log(`Squads Multisig created: ${signature}`);
+  const filePath = path.resolve(
+    __dirname,
+    "../../../deployments/solana-testnet/SQUADS.json",
+  );
+
+  let data: any = {};
+  if (fs.existsSync(filePath)) {
+    const existingData = fs.readFileSync(filePath, "utf-8");
+    data = JSON.parse(existingData);
+  }
 
   const [vaultPda] = multisig.getVaultPda({ multisigPda, index: 0 });
-  console.log(multisigPda.toBase58());
-  // throw new Error();
+  data["multisigPDA"] = multisigPda.toBase58();
+  data["vaultPDA"] = vaultPda.toBase58();
+  data["vaultIndex"] = 0;
+
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
   return new PublicKey(vaultPda);
-}
-
-export async function checkSquadsMultisigSigners(
-  connection: Connection,
-  multisigAddress: PublicKey,
-  expectedSigners: PublicKey[],
-) {
-  const multisigAccount = await multisig.accounts.Multisig.fromAccountAddress(
-    connection,
-    multisigAddress,
-  );
-  const currentSigners = multisigAccount.members.map((member) => member.key);
-
-  for (const signer of expectedSigners) {
-    if (!currentSigners.find((s) => s.equals(signer))) {
-      throw new Error(
-        `Signer ${signer.toBase58()} not found in multisig account`,
-      );
-    }
-  }
-  return currentSigners;
 }
