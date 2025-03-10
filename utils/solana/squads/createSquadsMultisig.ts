@@ -1,13 +1,6 @@
 import * as multisig from "@sqds/multisig";
-import {
-  Keypair,
-  PublicKey,
-  LAMPORTS_PER_SOL,
-  Connection,
-} from "@solana/web3.js";
-
+import { Keypair, PublicKey } from "@solana/web3.js";
 import { deriveConnection } from "../infrastructure/helpers";
-import bs58 from "bs58";
 import fs from "fs";
 import { mintAuthority } from "../../../deployments/solana-testnet/OFT.json";
 import * as path from "path";
@@ -19,12 +12,12 @@ const loadKeypair = (path: string): Keypair => {
 
 export async function createSquadsMultisig(
   keypairPath: string,
+  writable = true,
 ): Promise<PublicKey> {
   const { connection } = await deriveConnection(
     Number(process.env.SOLANA_EID) || 40168,
   );
   const createKey = Keypair.generate();
-
   const payer: Keypair = loadKeypair(keypairPath);
 
   const [multisigPda] = multisig.getMultisigPda({
@@ -66,22 +59,24 @@ export async function createSquadsMultisig(
 
   await connection.confirmTransaction(signature);
   console.log(`Squads Multisig created: ${signature}`);
-  const filePath = path.resolve(
-    __dirname,
-    "../../../deployments/solana-testnet/SQUADS.json",
-  );
-
-  let data: any = {};
-  if (fs.existsSync(filePath)) {
-    const existingData = fs.readFileSync(filePath, "utf-8");
-    data = JSON.parse(existingData);
-  }
-
   const [vaultPda] = multisig.getVaultPda({ multisigPda, index: 0 });
-  data["multisigPDA"] = multisigPda.toBase58();
-  data["vaultPDA"] = vaultPda.toBase58();
-  data["vaultIndex"] = 0;
 
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-  return new PublicKey(vaultPda);
+  if (writable) {
+    const filePath = path.resolve(
+      __dirname,
+      "../../../deployments/solana-testnet/SQUADS.json",
+    );
+
+    let data: any = {};
+    if (fs.existsSync(filePath)) {
+      const existingData = fs.readFileSync(filePath, "utf-8");
+      data = JSON.parse(existingData);
+    }
+    data["multisigPDA"] = multisigPda.toBase58();
+    data["vaultPDA"] = vaultPda.toBase58();
+    data["vaultIndex"] = 0;
+
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+  }
+  return new PublicKey(multisigPda);
 }

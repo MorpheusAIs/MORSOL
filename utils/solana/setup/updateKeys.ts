@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 export function updateKeys() {
   try {
-    console.log("Generating new Solana keypair...");
+    console.log("Generating new OFT keypair.");
     execSync("solana-keygen new -o target/deploy/moroft-keypair.json --force", {
       stdio: "inherit",
     });

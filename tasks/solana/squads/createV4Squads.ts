@@ -7,7 +7,7 @@ interface MintOFTArgs {
   keypairPath: string;
 }
 task(
-  "morpheus:oft:solana:create-squads",
+  "morpheus:solana:create-squads",
   "Generates new Solana keypair and syncs anchor keys",
 )
   .addParam(

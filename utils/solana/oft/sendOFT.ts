@@ -3,9 +3,6 @@ import { publicKey, transactionBuilder } from "@metaplex-foundation/umi";
 import { fromWeb3JsPublicKey } from "@metaplex-foundation/umi-web3js-adapters";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import bs58 from "bs58";
-import { task } from "hardhat/config";
-
-import { types } from "@layerzerolabs/devtools-evm-hardhat";
 import { EndpointId } from "@layerzerolabs/lz-definitions";
 import { addressToBytes32, Options } from "@layerzerolabs/lz-v2-utilities";
 import { oft } from "@layerzerolabs/oft-v2-solana-sdk";
@@ -66,6 +63,7 @@ export async function sendOFT(args: SendOFTSolanaArgs) {
     },
     {
       payInLzToken: false,
+      // @ts-ignore
       to: Buffer.from(recipientAddressBytes32),
       dstEid: toEid,
       amountLd: BigInt(amount),
@@ -87,6 +85,7 @@ export async function sendOFT(args: SendOFTSolanaArgs) {
       tokenSource: tokenAccount[0],
     },
     {
+      // @ts-ignore
       to: Buffer.from(recipientAddressBytes32),
       dstEid: toEid,
       amountLd: BigInt(amount),

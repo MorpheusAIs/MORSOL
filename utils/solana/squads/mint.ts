@@ -1,9 +1,6 @@
 import {
   PublicKey,
-  Connection,
-  SystemProgram,
   TransactionMessage,
-  LAMPORTS_PER_SOL,
   Transaction,
   Keypair,
   sendAndConfirmTransaction,
@@ -15,32 +12,39 @@ import {
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import fs from "fs";
-import * as anchor from "@coral-xyz/anchor";
 import {
   multisigPDA,
   vaultIndex,
-  vaultPDA,
 } from "../../../deployments/solana-testnet/SQUADS.json";
 import {
   mint,
   mintAuthority,
 } from "../../../deployments/solana-testnet/OFT.json";
 import { deriveConnection } from "../infrastructure/helpers";
+
 const loadKeypair = (path: string): Keypair => {
   const secretKey = JSON.parse(fs.readFileSync(path, "utf-8"));
   return Keypair.fromSecretKey(new Uint8Array(secretKey));
 };
 
-export const mintToken = async (amount: number, payerKeypairPath: string) => {
+export const mintToken = async (
+  amount: number,
+  payerKeypairPath: string,
+  externalMint?: string,
+  externalMintAuthority?: string,
+  externalMultisigPDA?: string,
+) => {
   const { connection } = await deriveConnection(
     Number(process.env.SOLANA_EID) || 40168,
   );
 
   const payer: Keypair = loadKeypair(payerKeypairPath);
 
-  const tokenMint = new PublicKey(mint);
+  const tokenMint = new PublicKey(externalMint ? externalMint : mint);
 
-  const multisigPda = new PublicKey(multisigPDA);
+  const multisigPda = new PublicKey(
+    externalMultisigPDA ? externalMultisigPDA : multisigPDA,
+  );
 
   const [vaultPda] = multisig.getVaultPda({ multisigPda, index: vaultIndex });
 
@@ -65,13 +69,15 @@ export const mintToken = async (amount: number, payerKeypairPath: string) => {
   const mintIx = createMintToInstruction(
     tokenMint,
     tokenAccount.address,
-    new PublicKey(mintAuthority),
+    new PublicKey(
+      externalMintAuthority ? externalMintAuthority : mintAuthority,
+    ),
     amount,
     [vaultPda],
     TOKEN_PROGRAM_ID,
   );
 
-  console.log("✅ MintTo Instruction Created");
+  console.log("MintTo Instruction Created");
 
   const transactionMessage = new TransactionMessage({
     payerKey: payer.publicKey,
@@ -92,8 +98,8 @@ export const mintToken = async (amount: number, payerKeypairPath: string) => {
   const tx = new Transaction().add(createVaultTxIx);
 
   const test = await sendAndConfirmTransaction(connection, tx, [payer]);
-  console.log(`✅ Vault Transaction ! Transaction Signature: ${test}`);
-  console.log("✅ Vault Transaction Created in Squads");
+  console.log(`Vault Transaction ! Transaction Signature: ${test}`);
+  console.log("Vault Transaction Created in Squads");
 
   const iix = multisig.instructions.proposalCreate({
     multisigPda,
@@ -103,7 +109,7 @@ export const mintToken = async (amount: number, payerKeypairPath: string) => {
   const tiix = new Transaction().add(iix);
 
   const tixxx = await sendAndConfirmTransaction(connection, tiix, [payer]);
-  console.log(`✅ Proposal ! Transaction Signature: ${tixxx}`);
+  console.log(`Proposal ! Transaction Signature: ${tixxx}`);
 
   const ix = multisig.instructions.proposalApprove({
     multisigPda,
@@ -143,5 +149,5 @@ export const mintToken = async (amount: number, payerKeypairPath: string) => {
     payer,
   ]);
 
-  console.log(`✅ Mint successful! Transaction Signature: ${signature}`);
+  console.log(`Mint successful! Transaction Signature: ${signature}`);
 };

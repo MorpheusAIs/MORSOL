@@ -20,16 +20,9 @@ import {
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import { Keypair, PublicKey } from "@solana/web3.js";
 import bs58 from "bs58";
-import { task } from "hardhat/config";
-
-import { types as devtoolsTypes } from "@layerzerolabs/devtools-evm-hardhat";
 import { promptToContinue } from "@layerzerolabs/io-devtools";
 import { EndpointId } from "@layerzerolabs/lz-definitions";
-import {
-  OFT_DECIMALS as DEFAULT_SHARED_DECIMALS,
-  oft,
-  types,
-} from "@layerzerolabs/oft-v2-solana-sdk";
+import { oft, types } from "@layerzerolabs/oft-v2-solana-sdk";
 
 import { CreateOFTSolanaArgs } from "../../interfaces/solana/createOFT.args";
 
@@ -47,12 +40,6 @@ import {
   getExplorerTxLink,
   output,
 } from "../infrastructure/helpers";
-import {
-  checkSquadsMultisigSigners,
-  createSquadsMultisig,
-} from "../squads/createSquadsMultisig";
-
-const DEFAULT_LOCAL_DECIMALS = 9;
 
 // Define a Hardhat task for creating OFT on Solana
 // * Create the SPL Multisig account for mint authority
@@ -137,20 +124,6 @@ export async function createOFT({
       toWeb3JsPublicKey(oftStorePda),
       ...additionalMinters,
     ]);
-    // mintAuthorityPublicKey = await createSquadsMultisig(
-    //   connection,
-    //   eid,
-    //   Keypair.fromSecretKey(umiWalletSigner.secretKey),
-    //   [toWeb3JsPublicKey(oftStorePda), ...additionalMinters],
-    //   1,
-    // );
-    // console.log(
-    //   `Created Squads multisig @ ${mintAuthorityPublicKey.toBase58()}`,
-    // );
-    // await checkSquadsMultisigSigners(connection, mintAuthorityPublicKey, [
-    //   toWeb3JsPublicKey(oftStorePda),
-    //   ...additionalMinters,
-    // ]);
   }
 
   const mint = isMABA

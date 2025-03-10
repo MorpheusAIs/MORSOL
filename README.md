@@ -99,7 +99,7 @@ pnpm hardhat morpheus:anchor:build:verifiable
 #### Preview Rent Costs
 
 ```bash
-pnpm hardhat morpheus:deploy:anchor:rent
+pnpm hardhat morpheus:solana:deploy:rent
 ```
 
 Example output:
@@ -119,7 +119,7 @@ pnpm hardhat morpheus:anchor:deploy:verifiable
 ### Create SquadsV4
 
 ```bash
-pnpm hardhat morpheus:oft:solana:create-squads --keypair-path <YOUR_KEYPAIR_PATH>
+pnpm hardhat morpheus:solana:create-squads --keypair-path <YOUR_KEYPAIR_PATH>
 ```
 
 ### Create the Solana OFT
@@ -131,7 +131,7 @@ pnpm hardhat morpheus:oft:solana:create --additional-minters <YOUR_SQUADS_VAULT_
 ### Create SquadsV4
 
 ```bash
-pnpm hardhat morpheus:oft:solana:mint --amount <AMOUNT_IN_LAMPORTS> --keypair-path <YOUR_KEYPAIR_PATH>
+pnpm hardhat morpheus:solana:mint-squads --amount <AMOUNT_IN_LAMPORTS> --keypair-path <YOUR_KEYPAIR_PATH>
 ```
 
 ### Update Configuration

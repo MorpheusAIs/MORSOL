@@ -1,11 +1,10 @@
 import { execSync } from "child_process";
-import fs from "fs";
 import dotenv from "dotenv";
 
 dotenv.config();
 export function buildVerifiable() {
   try {
-    console.log("Generating new Solana keypair...");
+    console.log("Building OFT program.");
     execSync("anchor build -v", {
       stdio: "inherit",
     });

@@ -31,7 +31,7 @@ interface Args {
   withPriorityFee: number;
 }
 
-task("morpheus:oft:solana:clear", "Clear a stored payload on Solana")
+task("morpheus:solana:oft:clear", "Clear a stored payload on Solana")
   .addParam("srcEid", "The source EndpointId", process.env.EVM_EID, types.eid)
   .addParam("nonce", "The nonce of the payload", undefined, types.bigint)
   .addParam("sender", "The source OApp address (hex)", undefined, types.string)

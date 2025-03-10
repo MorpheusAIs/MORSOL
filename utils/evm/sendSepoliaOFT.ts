@@ -1,7 +1,4 @@
 import bs58 from "bs58";
-import { BigNumber } from "ethers";
-import { task, types } from "hardhat/config";
-// import { ActionType, HardhatRuntimeEnvironment } from "hardhat/types";
 
 import { makeBytes32 } from "@layerzerolabs/devtools";
 import { EndpointId } from "@layerzerolabs/lz-definitions";
@@ -19,14 +16,6 @@ export async function sendOFTEVM(
   const signer = await hre.ethers.getNamedSigner("deployer");
   // @ts-ignore
   const token = (await hre.ethers.getContract(contractName)).connect(signer);
-
-  // if (isSepolia(hre.network.name)) {
-  //     // @ts-ignore
-  //     const erc20Token = (await hre.ethers.getContractAt(IERC20, address)).connect(signer)
-  //     const approvalTxResponse = await erc20Token.approve(token.address, amount)
-  //     const approvalTxReceipt = await approvalTxResponse.wait()
-  //     console.log(`approve: ${amount}: ${approvalTxReceipt.transactionHash}`)
-  // }
 
   const amountLD = parseUnits(amount.toString(), 9);
   let options = Options.newOptions()

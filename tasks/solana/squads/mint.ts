@@ -9,7 +9,7 @@ interface MintOFTArgs {
   keypairPath: string;
 }
 task(
-  "morpheus:oft:solana:mint",
+  "morpheus:solana:mint-squads",
   "Generates new Solana keypair and syncs anchor keys",
 )
   .addParam(

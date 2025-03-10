@@ -16,4 +16,4 @@ cluster = "Devnet"
 wallet = "/Users/petroyaremenko/.config/solana/id.json"
 
 [scripts]
-test = "pnpm ts-mocha -p ./tsconfig.json -t 1000000 tests/**/pipeline.test.ts"
+test = "pnpm ts-mocha -p ./tsconfig.json -t 1000000 test/anchor/multisig.test.ts"
