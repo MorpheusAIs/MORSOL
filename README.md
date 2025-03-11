@@ -45,7 +45,9 @@ pnpm install
 ## Running Tests
 
 ```bash
-pnpm test
+pnpm hardhat test
+forge test
+anchor test --skip-deploy --skip-build #Tests for multisig Squads and SPL stuff, as LayerZero OFT contract is audited and tested already.
 ```
 
 ## Get Devnet SOL
