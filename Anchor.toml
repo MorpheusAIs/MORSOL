@@ -13,7 +13,7 @@ url = "https://api.devnet.solana.com"
 
 [provider]
 cluster = "Devnet"
-wallet = "/Users/petroyaremenko/.config/solana/id.json"
+wallet = "~/.config/solana/id.json"
 
 [scripts]
 test = "pnpm ts-mocha -p ./tsconfig.json -t 1000000 test/anchor/multisig.test.ts"
