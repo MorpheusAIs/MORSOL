@@ -8,10 +8,7 @@ interface MintOFTArgs {
 
   keypairPath: string;
 }
-task(
-  "morpheus:solana:mint-squads",
-  "Generates new Solana keypair and syncs anchor keys",
-)
+task("morpheus:solana:mint-squads", "Mint tokens through squads multisig")
   .addParam(
     "amount",
     "Desired token amount in LAMPORTS",
