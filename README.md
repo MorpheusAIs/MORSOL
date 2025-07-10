@@ -129,12 +129,7 @@ pnpm hardhat morpheus:solana:create-squads --keypair-path <YOUR_KEYPAIR_PATH>
 ```bash
 pnpm hardhat morpheus:oft:solana:create --additional-minters <YOUR_SQUADS_VAULT_PDA>
 ```
-
-### Create SquadsV4
-
-```bash
-pnpm hardhat morpheus:solana:mint-squads --amount <AMOUNT_IN_LAMPORTS> --keypair-path <YOUR_KEYPAIR_PATH>
-```
+For the test purposes, Vault PDA can be changed to your wallet.
 
 ### Update Configuration
 
@@ -183,3 +178,10 @@ pnpm hardhat --network arbsep-testnet morpheus:evm:send --amount <AMOUNT_IN_LAMP
 ```
 
 ⚠️ If you encounter `No Contract deployed with name`, ensure `tokenName` in `tasks/evm/send.ts` matches the deployed contract name.
+
+
+### (Additional) Mint Tokens to Squads 
+
+```bash
+pnpm hardhat morpheus:solana:mint-squads --amount <AMOUNT_IN_LAMPORTS> --keypair-path <YOUR_KEYPAIR_PATH>
+```

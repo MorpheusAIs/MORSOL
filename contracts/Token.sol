@@ -22,7 +22,6 @@ contract MORTOKEN_REVISED is
     event NewMinter(address newMinter);
     error InvalidMinterZeroAddress();
     error CallerNotMinter(address caller);
-    uint256 public constant MAX_SUPPLY = 10_000_000_000e18;
 
     modifier onlyMinter() {
         if (!isMinter[_msgSender()]) {
@@ -60,10 +59,6 @@ contract MORTOKEN_REVISED is
         isMinter[prevMinter] = false;
     }
 
-    function _maxSupply() internal pure override returns (uint256) {
-        return MAX_SUPPLY;
-    }
-
     function nonces(
         address _owner
     ) public view override(ERC20Permit, Nonces) returns (uint256) {
@@ -77,6 +72,7 @@ contract MORTOKEN_REVISED is
     ) internal virtual override(ERC20, ERC20Votes) {
         return ERC20Votes._update(_from, _to, _value);
     }
+
     /**
      * @dev Retrieves the address of the underlying ERC20 implementation.
      * @return The address of the OFT token.
