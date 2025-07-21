@@ -6,14 +6,14 @@ seeds = false
 skip-lint = false
 
 [programs.localnet]
-moroft = "HZdgEQLhHPou97bfKSgM8H68HtkT7yp3ALZR5d6zhrLu"
+moroft = "EdFDnVxUbLyqaXCphxH3Wj35WRrDswxiVDVAYfAQK6mC"
 
 [registry]
 url = "https://api.devnet.solana.com"
 
 [provider]
 cluster = "Devnet"
-wallet = "~/.config/solana/id.json"
+wallet = "/Users/petroyaremenko/.config/solana/id.json"
 
 [scripts]
 test = "pnpm ts-mocha -p ./tsconfig.json -t 1000000 test/anchor/multisig.test.ts"

@@ -162,6 +162,14 @@ pnpm hardhat lz:oapp:init:solana --oapp-config layerzero.config.ts --solana-secr
 ```bash
 pnpm hardhat lz:oapp:wire --oapp-config layerzero.config.ts --solana-secret-key <PRIVATE_KEY> --solana-program-id <PROGRAM_ID>
 ```
+⚠️  The `layerzero.config.ts` file must include the correct EVM MOROFT contract name that was deployed using the `PRIVATE_KEY` specified in the `.env` file here:
+
+```js
+const sepoliaContract: OmniPointHardhat = {
+  eid: EndpointId.ARBSEP_V2_TESTNET,
+  contractName: "<MOROFT_CONTRACT_NAME>",
+};
+```
 
 ## Sending Tokens
 
