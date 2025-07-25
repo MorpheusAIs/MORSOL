@@ -129,7 +129,7 @@ pnpm hardhat morpheus:solana:create-squads --keypair-path <YOUR_KEYPAIR_PATH>
 ```bash
 pnpm hardhat morpheus:oft:solana:create --additional-minters <YOUR_SQUADS_VAULT_PDA>
 ```
-For the test purposes, Vault PDA can be changed to your wallet.
+⚠️  For testing purposes, the Vault PDA should be replaced with your own wallet address where you’ve minted test MOR tokens.
 
 ### Update Configuration
 
@@ -162,6 +162,14 @@ pnpm hardhat lz:oapp:init:solana --oapp-config layerzero.config.ts --solana-secr
 ```bash
 pnpm hardhat lz:oapp:wire --oapp-config layerzero.config.ts --solana-secret-key <PRIVATE_KEY> --solana-program-id <PROGRAM_ID>
 ```
+⚠️  The `layerzero.config.ts` file must include the correct EVM MOROFT contract name that was deployed using the `PRIVATE_KEY` specified in the `.env` file here:
+
+```js
+const sepoliaContract: OmniPointHardhat = {
+  eid: EndpointId.ARBSEP_V2_TESTNET,
+  contractName: "<MOROFT_CONTRACT_NAME>",
+};
+```
 
 ## Sending Tokens
 
@@ -178,10 +186,3 @@ pnpm hardhat --network arbsep-testnet morpheus:evm:send --amount <AMOUNT_IN_LAMP
 ```
 
 ⚠️ If you encounter `No Contract deployed with name`, ensure `tokenName` in `tasks/evm/send.ts` matches the deployed contract name.
-
-
-### (Additional) Mint Tokens to Squads 
-
-```bash
-pnpm hardhat morpheus:solana:mint-squads --amount <AMOUNT_IN_LAMPORTS> --keypair-path <YOUR_KEYPAIR_PATH>
-```
