@@ -7,7 +7,6 @@ import "./solana/oft/sendOFT.ts";
 import "./solana/infrastructure/getPriorFees.ts";
 import "./solana/infrastructure/base58.ts";
 import "./solana/setup/updateKeys.ts";
-import "./solana/squads/mint.ts";
 import "./solana/build/build.ts";
 import "./solana/infrastructure/checkRent.ts";
 import "./solana/build/deployVerifiable.ts";
