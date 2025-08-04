@@ -1,6 +1,7 @@
 import assert from "assert";
 import fs from "fs";
 import path from "path";
+import os from "os";
 
 import { Keypair } from "@solana/web3.js";
 import bs58 from "bs58";
@@ -19,10 +20,13 @@ task("morpheus:solana:base-58", "Outputs the base58 string for a keypair")
   .addParam(
     "keypairFile",
     "The path to the keypair file to be used. Defaults to ~/.config/solana/id.json",
-    process.env.KEYPAIR_PATH,
+    process.env.SOLANA_KEYPAIR_PATH || undefined,
     devtoolsTypes.string,
   )
   .setAction(async ({ keypairFile }: Base58FeesTaskArgs) => {
+    if (keypairFile.startsWith("~")) {
+      keypairFile = path.join(os.homedir(), keypairFile.slice(1));
+    }
     assert(
       fs.existsSync(keypairFile),
       `Keypair file not found: ${keypairFile}`,

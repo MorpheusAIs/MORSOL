@@ -1,5 +1,8 @@
 import assert from "assert";
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import fs from "fs";
+import os from "os";
+import path from "path";
 
 import {
   fetchAddressLookupTable,
@@ -78,7 +81,7 @@ import { createOFTFactory } from "@layerzerolabs/ua-devtools-solana";
 export const createSolanaConnectionFactory = () =>
   createConnectionFactory(
     createRpcUrlFactory({
-      [EndpointId.SOLANA_V2_MAINNET]: process.env.RPC_URL_SOLANA,
+      [EndpointId.SOLANA_V2_MAINNET]: process.env.RPC_URL_SOLANA_MAINNET,
       [EndpointId.SOLANA_V2_TESTNET]: process.env.RPC_URL_SOLANA_TESTNET,
     }),
   );
@@ -192,11 +195,19 @@ const getFromEnv = (key: string): string => {
   return value;
 };
 
-/**
- * Extracts the SOLANA_PRIVATE_KEY from the environment.  This is purposely not exported for encapsulation purposes.
- */
-const getSolanaPrivateKeyFromEnv = () => getFromEnv("SOLANA_PRIVATE_KEY");
+const getSolanaPrivateKeyFromEnv = (): Uint8Array => {
+  let filePath = process.env.SOLANA_KEYPAIR_PATH;
+  if (!filePath) throw new Error("Missing SOLANA_KEYPAIR_PATH");
 
+  if (filePath.startsWith("~")) {
+    filePath = path.join(os.homedir(), filePath.slice(1));
+  }
+
+  const secretKeyString = fs.readFileSync(filePath, "utf-8");
+  const secretKey = Uint8Array.from(JSON.parse(secretKeyString));
+
+  return Keypair.fromSecretKey(secretKey).secretKey;
+};
 /**
  * Derive common connection and UMI objects for a given endpoint ID.
  * @param eid {EndpointId}
@@ -206,9 +217,7 @@ export const deriveConnection = async (eid: EndpointId) => {
   const connectionFactory = createSolanaConnectionFactory();
   const connection = await connectionFactory(eid);
   const umi = createUmi(connection.rpcEndpoint).use(mplToolbox());
-  const umiWalletKeyPair = umi.eddsa.createKeypairFromSecretKey(
-    bs58.decode(privateKey),
-  );
+  const umiWalletKeyPair = umi.eddsa.createKeypairFromSecretKey(privateKey);
   const umiWalletSigner = createSignerFromKeypair(umi, umiWalletKeyPair);
   umi.use(signerIdentity(umiWalletSigner));
   return {

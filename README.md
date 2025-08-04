@@ -44,10 +44,10 @@ pnpm install
 
 ## Running Tests
 
+Note: test includes default LayerZero OFT test with OFT Mock contract.
+
 ```bash
-pnpm hardhat test
-forge test
-anchor test --skip-deploy --skip-build #Tests for multisig Squads and SPL stuff, as LayerZero OFT contract is audited and tested already.
+forge test 
 ```
 
 ## Get Devnet SOL
@@ -64,13 +64,7 @@ Use the [official Solana faucet](https://faucet.solana.com/) if needed.
 cp .env.example .env
 ```
 
-Set `SOLANA_PRIVATE_KEY` in `.env` to your private key in base58 format. Use:
-
-```bash
-npx hardhat lz:solana:base-58 --keypair-file <PATH>
-```
-
-Also set `RPC_URL_SOLANA_TESTNET` (refers to Solana Devnet for consistency with EVM testnets).
+Also set `RPC_URL_SOLANA_TESTNET` (reffers to Solana Devnet for consistency with EVM testnets).
 
 ## Deployment
 
@@ -121,15 +115,15 @@ pnpm hardhat morpheus:anchor:deploy:verifiable
 ### Create SquadsV4
 
 ```bash
-pnpm hardhat morpheus:solana:create-squads --keypair-path <YOUR_KEYPAIR_PATH>
+pnpm hardhat morpheus:solana:create-squads # Takes keypair path from `.env` by default.
 ```
 
 ### Create the Solana OFT
 
 ```bash
-pnpm hardhat morpheus:oft:solana:create --additional-minters <YOUR_SQUADS_VAULT_PDA>
+pnpm hardhat morpheus:oft:solana:create
 ```
-⚠️  For testing purposes, the Vault PDA should be replaced with your own wallet address where you’ve minted test MOR tokens.
+⚠️  For testing purposes pass your own Solana wallet address where your minted test MOR tokens are available with flag `--additional-minters <YOUR_SOLANA_PUBLIC_KEY>`.
 
 ### Update Configuration
 
@@ -143,16 +137,22 @@ pnpm hardhat lz:deploy
 
 ### Mint test EVM tokens
 
+Note: token has 18 decimals.
 ```bash
-cast send <TOKEN_ADDRESS> "mint(address,uint256)" <RECIPIENT> <AMOUNT> --private-key <EVM_PRIVATE_KEY> --rpc-url wss://arbitrum-sepolia-rpc.publicnode.com
+cast send <TOKEN_ADDRESS> "mint(address,uint256)" <RECIPIENT> 1000000000000000000000 --private-key <EVM_PRIVATE_KEY> --rpc-url wss://arbitrum-sepolia-rpc.publicnode.com
 ```
 
-For testnet, consider using `MyOFTMock`. If so, update `sepoliaContract.contractName` in `layerzero.config.ts`.
 
 ### Initialize the Solana OFT
+Since the LayerZero CLI does not load the private key automatically, you need to set it explicitly. Use the following command to provide your private key:
 
 ```bash
-pnpm hardhat lz:oapp:init:solana --oapp-config layerzero.config.ts --solana-secret-key <SECRET_KEY> --solana-program-id <PROGRAM_ID>
+npx hardhat morpheus:solana:base-58
+```
+Also pass `MOROFT_ID` from `.env` as param explicitly.
+
+```bash
+pnpm hardhat lz:oapp:init:solana --oapp-config layerzero.config.ts --solana-secret-key <SECRET_KEY> --solana-program-id <MOROFT_ID>
 ```
 
 ⚠️ `<SECRET_KEY>` should be in base58 format.
@@ -171,18 +171,21 @@ const sepoliaContract: OmniPointHardhat = {
 };
 ```
 
+
 ## Sending Tokens
+
+### Sepolia -> SOL
+Note: 9 decimals for Solana. Amount is in lamports.
+
+```bash
+pnpm hardhat --network arbsep-testnet morpheus:evm:send --amount 1000000000 --to <TO_SOLANA_ADDRESS>
+```
+
+⚠️ If you encounter `No Contract deployed with name`, ensure `tokenName` in `tasks/evm/send.ts` matches the deployed contract name.
+
 
 ### SOL -> Sepolia
 
 ```bash
 pnpm hardhat morpheus:oft:solana:send --amount <AMOUNT_IN_LAMPORTS> --to <EVM_ADDRESS>
 ```
-
-### Sepolia -> SOL
-
-```bash
-pnpm hardhat --network arbsep-testnet morpheus:evm:send --amount <AMOUNT_IN_LAMPORTS> --to <TO>
-```
-
-⚠️ If you encounter `No Contract deployed with name`, ensure `tokenName` in `tasks/evm/send.ts` matches the deployed contract name.

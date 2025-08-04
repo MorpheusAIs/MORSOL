@@ -11,7 +11,7 @@ task("morpheus:evm:send", "Sends a transaction")
   .addOptionalParam(
     "contractName",
     "Name of the contract in deployments folder",
-    "MORTOKEN_REVISED",
+    "MyOFTMock",
     types.string,
   )
   .setAction(async (args: SendOFTEVMArgs, hre: HardhatRuntimeEnvironment) => {

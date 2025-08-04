@@ -16,7 +16,7 @@ use oapp::{
 };
 use solana_helper::program_id_from_env;
 use state::*;
-declare_id!("EdFDnVxUbLyqaXCphxH3Wj35WRrDswxiVDVAYfAQK6mC");
+declare_id!("BNPHGBuFtg8hVwK5EE1CoTJh3wMNFwaFPR4eQEw3D6pc");
 
 
 pub const OFT_SEED: &[u8] = b"OFT";

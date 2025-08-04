@@ -7,7 +7,6 @@ cache_path = 'cache/foundry'
 libs = ['node_modules/@layerzerolabs/toolbox-foundry/lib', 'node_modules']
 
 remappings = [
-
     'ds-test/=node_modules/@layerzerolabs/toolbox-foundry/lib/ds-test',
     'forge-std/=node_modules/@layerzerolabs/toolbox-foundry/lib/forge-std',
     '@layerzerolabs/=node_modules/@layerzerolabs/',
