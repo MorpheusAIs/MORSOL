@@ -1,134 +1,71 @@
 import { EndpointId } from "@layerzerolabs/lz-definitions";
-
-import type {
-  OAppOmniGraphHardhat,
+import { ExecutorOptionType } from "@layerzerolabs/lz-v2-utilities";
+import { generateConnectionsConfig } from "@layerzerolabs/metadata-tools";
+import {
+  OAppEnforcedOption,
   OmniPointHardhat,
 } from "@layerzerolabs/toolbox-hardhat";
-
 import { oftStore } from "./deployments/solana-testnet/OFT.json";
-// Note:  Do not use address for EVM OmniPointHardhat contracts.  Contracts are loaded using hardhat-deploy.
-// If you do use an address, ensure artifacts exists.
+
+const evmEid: EndpointId =
+  Number(process.env.EVM_EID) || EndpointId.ARBSEP_V2_TESTNET;
+const solanaEid: EndpointId =
+  Number(process.env.SOLANA_EID) || EndpointId.ARBSEP_V2_TESTNET;
+
 const sepoliaContract: OmniPointHardhat = {
-  eid: EndpointId.ARBSEP_V2_TESTNET,
+  eid: evmEid,
   contractName: "MyOFTMock",
 };
 
 const solanaContract: OmniPointHardhat = {
-  eid: EndpointId.SOLANA_V2_TESTNET,
-  address: oftStore, // NOTE: update this with the OFTStore address.
+  eid: solanaEid,
+  address: oftStore,
 };
 
-const config: OAppOmniGraphHardhat = {
-  contracts: [
-    {
-      contract: sepoliaContract,
-    },
-    {
-      contract: solanaContract,
-    },
-  ],
-  connections: [
-    {
-      from: sepoliaContract,
-      to: solanaContract,
-      // NOTE: Here are some default settings that have been found to work well sending to Solana.
-      // You need to either enable these enforcedOptions or pass in extraOptions when calling send().
-      // Having neither will cause a revert when calling send().
-      // We suggest performing additional profiling to ensure they are correct for your use case.
-      // config: {
-      //     enforcedOptions: [
-      //         {
-      //             msgType: 1,
-      //             optionType: ExecutorOptionType.LZ_RECEIVE,
-      //             gas: 200000,
-      //             value: 2500000,
-      //         },
-      //         {
-      //             msgType: 2,
-      //             optionType: ExecutorOptionType.LZ_RECEIVE,
-      //             gas: 200000,
-      //             value: 2500000,
-      //         },
-      //         {
-      //             // Solana options use (gas == compute units, value == lamports)
-      //             msgType: 2,
-      //             optionType: ExecutorOptionType.COMPOSE,
-      //             index: 0,
-      //             gas: 0,
-      //             value: 0,
-      //         },
-      //     ],
-      // },
-    },
-    {
-      from: solanaContract,
-      to: sepoliaContract,
-      // TODO Here are some default settings that have been found to work well sending to Sepolia.
-      // You need to either enable these enforcedOptions or pass in extraOptions when calling send().
-      // Having neither will cause a revert when calling send().
-      // We suggest performing additional profiling to ensure they are correct for your use case.
-      // config: {
-      //     sendLibrary: '7a4WjyR8VZ7yZz5XJAKm39BUGn5iT9CKcv2pmG9tdXVH',
-      //     receiveLibraryConfig: {
-      //         receiveLibrary: '7a4WjyR8VZ7yZz5XJAKm39BUGn5iT9CKcv2pmG9tdXVH',
-      //         gracePeriod: BigInt(0),
-      //     },
-      //     // Optional Send Configuration
-      //     // @dev Controls how the `from` chain sends messages to the `to` chain.
-      //     sendConfig: {
-      //         executorConfig: {
-      //             maxMessageSize: 10000,
-      //             // The configured Executor address.  Note, this is the executor PDA not the program ID.
-      //             executor: 'AwrbHeCyniXaQhiJZkLhgWdUCteeWSGaSN1sTfLiY7xK',
-      //         },
-      //         ulnConfig: {
-      //             // // The number of block confirmations to wait before emitting the message from the source chain.
-      //             confirmations: BigInt(10),
-      //             // The address of the DVNs you will pay to verify a sent message on the source chain ).
-      //             // The destination tx will wait until ALL `requiredDVNs` verify the message.
-      //             requiredDVNs: [
-      //                 '4VDjp6XQaxoZf5RGwiPU9NR1EXSZn2TP4ATMmiSzLfhb', // LayerZero
-      //             ],
-      //             // The address of the DVNs you will pay to verify a sent message on the source chain ).
-      //             // The destination tx will wait until the configured threshold of `optionalDVNs` verify a message.
-      //             optionalDVNs: [],
-      //             // The number of `optionalDVNs` that need to successfully verify the message for it to be considered Verified.
-      //             optionalDVNThreshold: 0,
-      //         },
-      //     },
-      //     // Optional Receive Configuration
-      //     // @dev Controls how the `from` chain receives messages from the `to` chain.
-      //     receiveConfig: {
-      //         ulnConfig: {
-      //             // The number of block confirmations to expect from the `to` chain.
-      //             confirmations: BigInt(2),
-      //             // The address of the DVNs your `receiveConfig` expects to receive verifications from on the `from` chain ).
-      //             // The `from` chain's OApp will wait until the configured threshold of `requiredDVNs` verify the message.
-      //             requiredDVNs: [
-      //                 '4VDjp6XQaxoZf5RGwiPU9NR1EXSZn2TP4ATMmiSzLfhb', // LayerZero
-      //             ],
-      //             // The address of the DVNs you will pay to verify a sent message on the source chain ).
-      //             // The destination tx will wait until the configured threshold of `optionalDVNs` verify a message.
-      //             optionalDVNs: [],
-      //             // The number of `optionalDVNs` that need to successfully verify the message for it to be considered Verified.
-      //             optionalDVNThreshold: 0,
-      //         },
-      //     },
-      //     enforcedOptions: [
-      //         {
-      //             msgType: 1,
-      //             optionType: ExecutorOptionType.LZ_RECEIVE,
-      //             gas: 200000,
-      //         },
-      //         {
-      //             msgType: 2,
-      //             optionType: ExecutorOptionType.LZ_RECEIVE,
-      //             gas: 200000,
-      //         },
-      //     ],
-      // },
-    },
-  ],
-};
+const EVM_ENFORCED_OPTIONS: OAppEnforcedOption[] = [
+  {
+    msgType: 1,
+    optionType: ExecutorOptionType.LZ_RECEIVE,
+    gas: 80000,
+    value: 0,
+  },
+];
 
-export default config;
+const CU_LIMIT = 200000; // This represents the CU limit for executing the `lz_receive` function on Solana.
+const SPL_TOKEN_ACCOUNT_RENT_VALUE = 2039280; // This figure represents lamports (https://solana.com/docs/references/terminology#lamport) on Solana. Read below for more details.
+/*
+ *  Elaboration on `value` when sending OFTs to Solana:
+ *   When sending OFTs to Solana, SOL is needed for rent (https://solana.com/docs/core/accounts#rent) to initialize the recipient's token account.
+ *   The `2039280` lamports value is the exact rent value needed for SPL token accounts (0.00203928 SOL).
+ *   For Token2022 token accounts, you will need to increase `value` to a higher amount, which depends on the token account size, which in turn depends on the extensions that you enable.
+ */
+
+const SOLANA_ENFORCED_OPTIONS: OAppEnforcedOption[] = [
+  {
+    msgType: 1,
+    optionType: ExecutorOptionType.LZ_RECEIVE,
+    gas: CU_LIMIT,
+    value: SPL_TOKEN_ACCOUNT_RENT_VALUE,
+  },
+];
+
+// Learn about Message Execution Options: https://docs.layerzero.network/v2/developers/solana/oft/account#message-execution-options
+// Learn more about the Simple Config Generator - https://docs.layerzero.network/v2/developers/evm/technical-reference/simple-config
+export default async function () {
+  // note: pathways declared here are automatically bidirectional
+  // if you declare A,B there's no need to declare B,A
+  const connections = await generateConnectionsConfig([
+    [
+      sepoliaContract, // Chain A contract
+      solanaContract, // Chain B contract
+      [["LayerZero Labs"], []], // [ requiredDVN[], [ optionalDVN[], threshold ] ]
+      [15, 32], // [A to B confirmations, B to A confirmations]
+      [SOLANA_ENFORCED_OPTIONS, EVM_ENFORCED_OPTIONS], // Chain B enforcedOptions, Chain A enforcedOptions
+    ],
+  ]);
+
+  return {
+    contracts: [{ contract: sepoliaContract }, { contract: solanaContract }],
+    connections,
+  };
+}

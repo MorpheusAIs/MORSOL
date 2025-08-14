@@ -172,7 +172,7 @@ const sepoliaContract: OmniPointHardhat = {
 ```
 
 
-## Sending Tokens
+## Sending 1 Token
 
 ### Sepolia -> SOL
 Note: 9 decimals for Solana. Amount is in lamports.
@@ -187,5 +187,5 @@ pnpm hardhat --network arbsep-testnet morpheus:evm:send --amount 1000000000 --to
 ### SOL -> Sepolia
 
 ```bash
-pnpm hardhat morpheus:oft:solana:send --amount <AMOUNT_IN_LAMPORTS> --to <EVM_ADDRESS>
+pnpm hardhat morpheus:oft:solana:send --amount 1000000000 --to <TO_EVM_ADDRESS>
 ```

@@ -113,7 +113,7 @@ export async function sendOFT(args: SendOFTSolanaArgs) {
   const { signature } = await txBuilder.sendAndConfirm(umi);
   const transactionSignatureBase58 = bs58.encode(signature);
 
-  console.log(`✅ Sent ${amount} token(s) to destination EID: ${toEid}!`);
+  console.log(`sent ${amount} to ${to}: ${transactionSignatureBase58}`);
   const isTestnet = fromEid == EndpointId.SOLANA_V2_TESTNET;
   console.log(
     `View Solana transaction here: ${getExplorerTxLink(transactionSignatureBase58.toString(), isTestnet)}`,
