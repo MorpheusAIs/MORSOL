@@ -29,7 +29,7 @@ import "./tasks/index";
 const MNEMONIC = process.env.MNEMONIC;
 
 // If you prefer to be authenticated using a private key, set a PRIVATE_KEY environment variable
-const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const PRIVATE_KEY = process.env.EVM_PRIVATE_KEY;
 
 const accounts: HttpNetworkAccountsUserConfig | undefined = MNEMONIC
   ? { mnemonic: MNEMONIC }

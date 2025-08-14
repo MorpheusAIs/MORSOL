@@ -41,7 +41,7 @@ export async function sendOFTEVM(
     signer.address,
     {
       value: msgFee.nativeFee,
-      gasLimit: 500_000,
+      gasLimit: 300_000,
     },
   );
 

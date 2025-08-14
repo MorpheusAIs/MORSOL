@@ -6,9 +6,8 @@ import { types as devtoolsTypes } from "@layerzerolabs/devtools-evm-hardhat";
 
 import { EndpointId } from "@layerzerolabs/lz-definitions";
 import { OFT_DECIMALS as DEFAULT_SHARED_DECIMALS } from "@layerzerolabs/oft-v2-solana-sdk";
-
 import { createOFT } from "../../../utils/solana/oft/createOFT";
-
+import { vaultPDA } from "../../../deployments/solana-testnet/SQUADS.json";
 const DEFAULT_LOCAL_DECIMALS = 9;
 
 interface CreateOFTTaskArgs {
@@ -155,7 +154,7 @@ task(
   .addParam(
     "additionalMinters",
     "Comma-separated list of additional minters",
-    undefined,
+    [vaultPDA],
     devtoolsTypes.csv,
     true,
   )

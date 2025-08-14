@@ -1,7 +1,7 @@
 {
-  "programId": "",
-  "mint": "",
-  "mintAuthority": "",
-  "escrow": "",
-  "oftStore": ""
+  "programId": "BNPHGBuFtg8hVwK5EE1CoTJh3wMNFwaFPR4eQEw3D6pc",
+  "mint": "CHsPwfV5AADroy4bt7nfZnAqdUBJA3TGp9MAciNHKkmY",
+  "mintAuthority": "6YWjt3WWyr8ogQen8ACE6U3zjTm5nnEQY5BzNKuZKovm",
+  "escrow": "J5smhcovmahuKibbbqNHcRqqfPL22mk5M8Sz3ELzQFYk",
+  "oftStore": "2iouYsnEYtqc1qnMLPE8ZioG4WE1rVXuxFEsL16q82fg"
 }

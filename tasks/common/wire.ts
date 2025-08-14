@@ -125,7 +125,7 @@ task(TASK_LZ_OAPP_WIRE)
 
     // We'll need a connection factory to be able to query the Solana network
     //
-    // If you haven't set RPC_URL_SOLANA and/or RPC_URL_SOLANA_TESTNET environment variables,
+    // If you haven't set RPC_URL_SOLANA_MAINNET and/or RPC_URL_SOLANA_TESTNET environment variables,
     // the factory will use the default public RPC URLs
     const connectionFactory = createSolanaConnectionFactory();
 

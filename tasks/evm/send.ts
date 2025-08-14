@@ -9,9 +9,15 @@ task("morpheus:evm:send", "Sends a transaction")
   .addParam("amount", "Amount to send in wei", undefined, types.int, false)
   .addParam("to", "Recipient address", undefined, types.string, false)
   .addOptionalParam(
+    "extraOptions",
+    "Extra options for sending additional gas units to lzReceive, lzCompose, or receiver address",
+    undefined,
+    types.string,
+  )
+  .addOptionalParam(
     "contractName",
     "Name of the contract in deployments folder",
-    "MORTOKEN_REVISED",
+    "MyOFTMock",
     types.string,
   )
   .setAction(async (args: SendOFTEVMArgs, hre: HardhatRuntimeEnvironment) => {

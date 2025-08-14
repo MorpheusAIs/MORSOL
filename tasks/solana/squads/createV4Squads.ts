@@ -3,6 +3,9 @@ import { task } from "hardhat/config";
 import { createSquadsMultisig } from "../../../utils/solana/squads/createSquadsMultisig";
 import { types as devtoolsTypes } from "@layerzerolabs/devtools-evm-hardhat";
 import { mint } from "../../../deployments/solana-testnet/OFT.json";
+import dotenv from "dotenv";
+
+dotenv.config();
 interface MintOFTArgs {
   keypairPath: string;
 }
@@ -13,7 +16,7 @@ task(
   .addParam(
     "keypairPath",
     "Seller fee basis points",
-    undefined,
+    process.env.SOLANA_KEYPAIR_PATH,
     devtoolsTypes.string,
   )
   .setAction(async (args: MintOFTArgs) => {
