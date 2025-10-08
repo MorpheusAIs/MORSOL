@@ -42,14 +42,6 @@ cargo install --git https://github.com/coral-xyz/anchor --tag v0.29.0 anchor-cli
 pnpm install
 ```
 
-## Running Tests
-
-Note: test includes default LayerZero OFT test with OFT Mock contract.
-
-```bash
-forge test 
-```
-
 ## Get Devnet SOL
 
 ```bash

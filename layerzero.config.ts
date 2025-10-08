@@ -14,7 +14,7 @@ const solanaEid: EndpointId =
 
 const sepoliaContract: OmniPointHardhat = {
   eid: evmEid,
-  contractName: "MyOFTMock",
+  contractName: "MOROFT",
 };
 
 const solanaContract: OmniPointHardhat = {
