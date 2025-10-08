@@ -2,7 +2,7 @@
 # MORSOL Project Status
 
 Status and audit notes for **MOR omnichain token** (Solana + EVM, OFT v2).  
-This doc tracks **what’s completed**, **what’s left**, **who can sign what**, and **hard evidence** (tx hashes/links).
+This doc tracks **what’s completed**, **who can sign what**, and **hard evidence** (tx hashes/links).
 
 _Last updated: 2025-10-09 (Europe/Kyiv)._
 
