@@ -5,16 +5,16 @@ import {
   OAppEnforcedOption,
   OmniPointHardhat,
 } from "@layerzerolabs/toolbox-hardhat";
-import { oftStore } from "./deployments/solana-testnet/OFT.json";
+import { oftStore } from "./deployments/solana-mainnet/OFT.json";
 
 const evmEid: EndpointId =
-  Number(process.env.EVM_EID) || EndpointId.ARBSEP_V2_TESTNET;
+  Number(process.env.EVM_EID) || EndpointId.ARBITRUM_V2_MAINNET;
 const solanaEid: EndpointId =
-  Number(process.env.SOLANA_EID) || EndpointId.ARBSEP_V2_TESTNET;
+  Number(process.env.SOLANA_EID) || EndpointId.SOLANA_V2_MAINNET;
 
 const sepoliaContract: OmniPointHardhat = {
   eid: evmEid,
-  contractName: "MOROFT",
+  contractName: "MRTOFT",
 };
 
 const solanaContract: OmniPointHardhat = {
@@ -31,7 +31,7 @@ const EVM_ENFORCED_OPTIONS: OAppEnforcedOption[] = [
   },
 ];
 
-const CU_LIMIT = 200000; // This represents the CU limit for executing the `lz_receive` function on Solana.
+const CU_LIMIT = 80000; // This represents the CU limit for executing the `lz_receive` function on Solana.
 const SPL_TOKEN_ACCOUNT_RENT_VALUE = 2039280; // This figure represents lamports (https://solana.com/docs/references/terminology#lamport) on Solana. Read below for more details.
 /*
  *  Elaboration on `value` when sending OFTs to Solana:

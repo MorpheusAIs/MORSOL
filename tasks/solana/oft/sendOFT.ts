@@ -10,7 +10,7 @@ import {
   mint,
   programId,
   escrow,
-} from "../../../deployments/solana-testnet/OFT.json";
+} from "../../../deployments/solana-mainnet/OFT.json";
 
 // Define a Hardhat task for sending OFT from Solana
 task(

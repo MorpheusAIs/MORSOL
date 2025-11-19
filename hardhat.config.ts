@@ -62,11 +62,16 @@ const config: HardhatUserConfig = {
     ],
   },
   networks: {
-    "arbsep-testnet": {
-      eid: EndpointId.ARBSEP_V2_TESTNET,
-      url:
-        process.env.RPC_URL_SEPOLIA ||
-        "https://arbitrum-sepolia-rpc.publicnode.com",
+    // "arbsep-testnet": {
+    //   eid: EndpointId.ARBSEP_V2_TESTNET,
+    //   url:
+    //     process.env.RPC_URL_SEPOLIA ||
+    //     "https://arbitrum-sepolia-rpc.publicnode.com",
+    //   accounts,
+    // },
+    arbitrum: {
+      eid: EndpointId.ARBITRUM_V2_MAINNET,
+      url: "https://arbitrum-one-rpc.publicnode.com",
       accounts,
     },
     hardhat: {

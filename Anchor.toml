@@ -6,11 +6,12 @@ seeds = false
 skip-lint = false
 
 [programs.localnet]
-moroft = "GCFybaw764AVDtZxgZsmmeFwuVpSwoj5yQPr4sVGfWMs"
+moroft = "B7WAb33d9VguwQQ5em1Zt1Whemv2h8jHupbFYt3YGzwP"
 
 [registry]
-url = "https://api.devnet.solana.com"
+url = "https://mainnet.helius-rpc.com/?api-key=f7264107-e02c-4366-9e09-eca2439b8f4d"
 
 [provider]
-cluster = "Devnet"
-wallet = "/Users/petroyaremenko/.config/solana/id.json"
+cluster = "Mainnet"
+url = "https://mainnet.helius-rpc.com/?api-key=f7264107-e02c-4366-9e09-eca2439b8f4d"
+wallet = "keypair.json"

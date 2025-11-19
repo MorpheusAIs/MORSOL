@@ -5,7 +5,7 @@ import { SendOFTEVMArgs } from "../../utils/interfaces/evm/sendOFT.args";
 import { sendOFTEVM } from "../../utils/evm/sendSepoliaOFT";
 
 task("morpheus:evm:send", "Sends a transaction")
-  .addParam("dstEid", "Destination endpoint ID", 40168, types.int, true)
+  .addParam("dstEid", "Destination endpoint ID", 30168, types.int, true)
   .addParam("amount", "Amount to send in wei", undefined, types.int, false)
   .addParam("to", "Recipient address", undefined, types.string, false)
   .addOptionalParam(
@@ -17,7 +17,7 @@ task("morpheus:evm:send", "Sends a transaction")
   .addOptionalParam(
     "contractName",
     "Name of the contract in deployments folder",
-    "MOROFT",
+    "MRTOFT",
     types.string,
   )
   .setAction(async (args: SendOFTEVMArgs, hre: HardhatRuntimeEnvironment) => {

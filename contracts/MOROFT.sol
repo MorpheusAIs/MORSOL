@@ -9,14 +9,14 @@ import {IMOROFT, IERC20, IERC165, IOAppCore} from "./interfaces/IMOROFT.sol";
  * The token is ERC20 with burnable and Layer Zero OFT features.
  * @custom:security-contact devs@mor.org
  */
-contract MOROFT is IMOROFT, OFT {
+contract MRTOFT is IMOROFT, OFT {
     mapping(address => bool) public isMinter;
 
     constructor(
         address layerZeroEndpoint_,
         address delegate_,
         address minter_
-    ) OFT("MOR", "MOR", layerZeroEndpoint_, delegate_) {
+    ) OFT("MRT", "MRT", layerZeroEndpoint_, delegate_) {
         require(minter_ != address(0), "MOROFT: invalid minter");
 
         isMinter[minter_] = true;
