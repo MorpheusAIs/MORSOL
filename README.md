@@ -11,7 +11,7 @@
 ## Setup
 
 We recommend using `pnpm` as a package manager, but you can use any package manager of your choice.
-
+z
 [Docker](https://docs.docker.com/get-started/get-docker/) is required for building with Anchor. Ensure you have the latest Docker version to avoid issues.
 
 ⚠️ You need Anchor version `0.29` and Solana version `1.17.31` to compile the build artifacts. Using higher versions may cause unexpected issues. See these issues in Anchor's repo: [Issue 1](https://github.com/coral-xyz/anchor/issues/3089), [Issue 2](https://github.com/coral-xyz/anchor/issues/2835).
@@ -51,7 +51,7 @@ solana airdrop 5 -u devnet
 Use the [official Solana faucet](https://faucet.solana.com/) if needed.
 
 ## Configure Environment
-
+⚠️ Create or put new deployment keypair to `keypair.json` file in native solana fromat (bytes).
 ```bash
 cp .env.example .env
 ```
@@ -133,7 +133,7 @@ Note: token has 18 decimals.
 ```bash
 cast send <TOKEN_ADDRESS> "mint(address,uint256)" <RECIPIENT> 1000000000000000000000 --private-key <EVM_PRIVATE_KEY> --rpc-url wss://arbitrum-sepolia-rpc.publicnode.com
 ```
-
+9000000000000000000000000
 
 ### Initialize the Solana OFT
 Since the LayerZero CLI does not load the private key automatically, you need to set it explicitly. Use the following command to provide your private key:
