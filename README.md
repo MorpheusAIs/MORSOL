@@ -51,7 +51,8 @@ solana airdrop 5 -u devnet
 Use the [official Solana faucet](https://faucet.solana.com/) if needed.
 
 ## Configure Environment
-⚠️ Create or put new deployment keypair to `keypair.json` file in native solana fromat (bytes).
+⚠️ Create or put new deployment keypair to `keypair.json` file in native solana format (bytes).
+
 ```bash
 cp .env.example .env
 ```
